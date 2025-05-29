@@ -1,32 +1,41 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
+# Build results
+bin/
+obj/
+*.user
+*.suo
+*.cache
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
 *.exe
-*.out
-*.app
+*.pdb
+
+# Visual Studio settings
+.vscode/
+.vs/
+*.csproj.user
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Logs
+*.log
+
+# Database
+*.mdf
+*.ldf
+
+# Secrets
+appsettings.Development.json
+secrets.json
+
+# JetBrains
+.idea/
+*.sln.iml
+
+# dotnet tools
+.tools/
