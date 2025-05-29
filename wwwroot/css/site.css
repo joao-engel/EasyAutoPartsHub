@@ -20,3 +20,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.transition {
+    transition: transform 0.3s ease;
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}

@@ -10,44 +10,71 @@
     <link href="~/lib/font-aweasome/fontawesome.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/font-aweasome/solid.min.css" rel="stylesheet" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-light border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+<body class="vh-100 overflow-hidden">
+    <div class="d-flex h-100">
+        <!-- Sidebar à esquerda -->
+        <nav class="d-flex flex-column bg-light border-end shadow-lg p-3" style="width: 250px;">
+            <div class="mb-4">
                 <i class="fa-solid fa-store me-2"></i>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Menu" asp-action="Cadastros">Cadastros</a>
-                        </li>
-                    </ul>
-                </div>
+                <span class="fw-bold">EasyAutoPartsHub</span>
             </div>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#cadastrosSubmenu" role="button" aria-expanded="false" aria-controls="cadastrosSubmenu">
+                        <span>Cadastros</span>
+                        <i class="fa-solid fa-chevron-down transition" id="cadastrosArrow"></i>
+                    </a>
+                    <div class="collapse ps-3" id="cadastrosSubmenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Produto" asp-action="Index">Produtos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Grupo" asp-action="Index">Grupos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Cliente" asp-action="Index">Clientes</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark" asp-controller="#" asp-action="#">Pedidos</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark" asp-controller="#" asp-action="#">Relatórios</a>
+                </li>
+            </ul>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+        <!-- Conteúdo principal -->
+        <div class="flex-grow-1 p-3 overflow-auto">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - EasyAutoPartsHub
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/font-aweasome/fontawesome.min.js" asp-append-version="true"></script>
     <script src="~/lib/font-aweasome/solid.min.js" asp-append-version="true"></script>
+    <script>
+        const submenu = document.getElementById('cadastrosSubmenu');
+        const arrow = document.getElementById('cadastrosArrow');
+
+        submenu.addEventListener('show.bs.collapse', function () {
+            arrow.classList.add('rotate-180');
+        });
+
+        submenu.addEventListener('hide.bs.collapse', function () {
+            arrow.classList.remove('rotate-180');
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
