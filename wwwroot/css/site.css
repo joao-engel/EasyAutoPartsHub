@@ -57,3 +57,13 @@ table td,
 table th {
     vertical-align: middle !important;
 }
+
+.disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.input[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}

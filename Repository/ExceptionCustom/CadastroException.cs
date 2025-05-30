@@ -46,4 +46,18 @@ internal static class CadastroException
         return $"Erro não catalogado." +
                 $"<hr> <small><i>{ex.Message}</i></small>";
     }
+
+    public static string ExceptionRepositoryCliente(this Exception ex)
+    {
+        if (ex.Message.Contains("UK_Cliente"))
+            return $"<b>Documento</b> já cadastrado!" +
+                $"<hr> <small><i>{ex.Message}</i></small>";
+
+        if (ex.Message.Contains("Nome'. Truncated"))
+            return $"<b>Nome</b> excedeu o limite de 50 caracteres!" +
+                $"<hr> <small><i>{ex.Message}</i></small>";
+
+        return $"Erro não catalogado." +
+                $"<hr> <small><i>{ex.Message}</i></small>";
+    }
 }
