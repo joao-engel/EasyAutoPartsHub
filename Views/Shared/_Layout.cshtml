@@ -64,11 +64,22 @@
         </div>
     </div>
 
+    <!--Loading-->
+    <div id="ajax-loader" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 z-3 d-flex justify-content-center align-items-center">
+        <div class="text-center text-white">
+            <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <div class="mt-3">Aguarde...</div>
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/font-aweasome/fontawesome.min.js" asp-append-version="true"></script>
     <script src="~/lib/font-aweasome/solid.min.js" asp-append-version="true"></script>
+    <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
     <script>
         const submenu = document.getElementById('cadastrosSubmenu');
         const arrow = document.getElementById('cadastrosArrow');

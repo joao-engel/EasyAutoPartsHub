@@ -1,0 +1,44 @@
+﻿<nav class="navbar fixed-bottom bg-light" style="background-color: #d0debc !important">
+    <div class="container-fluid d-block">
+        <div class="row my-1 align-self-end justify-content-end">
+            <div class="col-sm-2 col-6">
+                @if (ViewBag.submit)
+                {
+                    <button name="btnSalvar" class="btn btn-sm btn-success w-100 my-0" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Salvar</button>
+                }
+                else
+                {
+                    <button name="btnSalvar" class="btn btn-sm btn-success w-100 my-0" type="button"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Salvar</button>
+                }
+            </div>
+            @if (@ViewBag.cancelarController != null)
+            {
+                string strController = ViewBag.cancelarController;
+                string strAction = ViewBag.cancelarAction;
+
+                if (ViewBag.chave != null)
+                {
+                    <div class="col-sm-2 col-6">
+                        <a class="btn btn-sm btn-danger w-100 my-0" asp-controller="@strController" asp-action="@strAction" asp-route-chave="@ViewBag.chave"><i class="fa fa-reply" aria-hidden="true"></i> Cancelar</a>
+                    </div>
+                }
+                else if (ViewBag.param != null)
+                {
+                    <div class="col-sm-2 col-6">
+                        <a class="btn btn-sm btn-danger w-100 my-0" href="@ViewBag.param"><i class="fa-solid fa-reply" aria-hidden="true"></i> Cancelar</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-2 col-6">
+                        <a class="btn btn-sm btn-danger w-100 my-0" asp-controller="@strController" asp-action="@strAction"><i class="fa-solid fa-reply" aria-hidden="true"></i> Cancelar</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</nav>
+
+@*
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Franquia", cancelarAction = "Index" })
+*@

@@ -8,6 +8,10 @@ html {
   }
 }
 
+.z-3 {
+    z-index: 1050 !important; /* Acima de modais padrão Bootstrap */
+}
+
 .sidebar-hover:hover {
     background-color: rgba(0, 123, 255, 0.1); /* tom sutil */
     color: #0d6efd !important; /* azul padrão Bootstrap */
@@ -34,4 +38,17 @@ body {
 
 .rotate-180 {
     transform: rotate(180deg);
+}
+
+input:invalid,
+select:invalid,
+textarea:invalid {
+    border: solid red 1px !important;
+}
+
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
 }

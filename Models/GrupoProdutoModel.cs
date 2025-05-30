@@ -1,7 +1,7 @@
 ﻿namespace EasyAutoPartsHub.Models;
-public class GrupoModel
+public class GrupoProdutoModel
 {
-    public int ID { get; set; }
+    public int? ID { get; set; }
     public string Descricao { get; set; }
     public string Observacao { get; set; }
 }

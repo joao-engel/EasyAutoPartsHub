@@ -1,0 +1,31 @@
+﻿@model GrupoProdutoModel
+
+@{
+    ViewData["Title"] = "Cadastro - Grupo Produto";
+}
+
+<form id="frm-cadastro" enctype="multipart/form-data">
+    <input asp-for="ID" type="hidden" />
+    <div class="row mb-3">
+        <div class="col-sm-6 col-12">
+            <label asp-for="Descricao" class="control-label">Nome do Grupo</label>
+            <input asp-for="Descricao" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
+        </div>
+    </div>
+    <div class="row"></div>
+        <div class="col-12">
+            <label asp-for="Observacao" class="control-label">Observação</label>
+            <textarea asp-for="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
+        </div>
+
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Grupo", cancelarAction = "Index" })
+
+</form>
+
+@section Scripts {
+    <script>
+        $('#frm-cadastro').submit(function (evt) {
+            fn_submit(evt, '#frm-cadastro', '@Url.Action("Cadastro", "Grupo")', '@Url.Action("Index", "Grupo")', false);
+        });
+    </script>
+}

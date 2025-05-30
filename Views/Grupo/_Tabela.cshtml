@@ -1,0 +1,31 @@
+﻿@model List<GrupoProdutoModel>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-2">Grupo</th>
+                        <th class="col-7">Observação</th>
+                        <th class="col-1">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(x => x.Descricao))
+                    {
+                        <tr>
+                            <td class="text-start">@item.Descricao</td>
+                            <td class="text-start">@item.Observacao</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Grupo" asp-action="Cadastro" asp-route-id="@item.ID">
+                                    <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
