@@ -23,7 +23,6 @@ namespace EasyAutoPartsHub.Controllers
         {
             try
             {
-                Task.Delay(5000).Wait(); // Simula um atraso para a requisição
                 var lst = await _clienteServices.Listar(model);
                 return PartialView("_Tabela", lst);
             }
