@@ -24,6 +24,10 @@ namespace EasyAutoPartsHub.Repository
         {
             try
             {
+                model.Nome = model.Nome.FormataComoParam();
+                model.Documento = model.Documento.FormataComoParam();
+                model.Telefone = model.Telefone.FormataTelComoParam();
+
                 string sql = @"
 SELECT
 	ID,
