@@ -13,6 +13,8 @@ namespace EasyAutoPartsHub
             services.AddScoped<IGrupoServices, GrupoServices>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IFornecedorServices, FornecedorServices>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IProdutoServices, ProdutoServices>();
 
             return services;
         }

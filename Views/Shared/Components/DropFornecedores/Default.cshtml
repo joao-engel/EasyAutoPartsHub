@@ -1,0 +1,13 @@
+﻿@model List<FornecedorModel>
+
+
+@foreach (var item in Model)
+{
+    string strtext = item.NomeFantasia;
+
+    <option value="@item.ID" selected="@(item.ID == ViewBag.id)">@strtext</option>
+}
+
+@*
+    @await Component.InvokeAsync("DropFornecedores", new {ID = null})
+*@

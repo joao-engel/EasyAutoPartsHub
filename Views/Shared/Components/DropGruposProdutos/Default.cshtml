@@ -1,0 +1,13 @@
+﻿@model List<GrupoProdutoModel>
+
+
+@foreach (var item in Model)
+{
+    string strtext = item.Descricao;
+
+    <option value="@item.ID" selected="@(item.ID == ViewBag.id)">@strtext</option>
+}
+
+@*
+    @await Component.InvokeAsync("DropGruposProdutos", new {ID = null})
+*@

@@ -1,0 +1,48 @@
+﻿@model List<ProdutoModel>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-1">Cod. Ext.</th>
+                        <th class="col-3">Descrição</th>
+                        <th class="col-2">Grupo</th>
+                        <th class="col-3">Fornecedor</th>
+                        <th class="col-1">Preço</th>
+                        <th class="col-1">Ativo</th>
+                        <th class="col-1">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(x => x.Ativo).ThenBy(x => x.Descricao))
+                    {
+                        <tr>
+                            <td class="text-start">@item.CodigoExterno</td>
+                            <td class="text-start">@item.Descricao</td>
+                            <td class="text-start">@item.Grupo</td>
+                            <td class="text-start">@item.Fornecedor</td>                            
+                            <td class="text-end">@item.Preco?.ToString("N2")</td>
+                            <td class="text-center">
+                                @if (item.Ativo)
+                                {
+                                    <span class="badge bg-success fs-6">Sim</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">Não</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Produto" asp-action="Cadastro" asp-route-id="@item.ID">
+                                    <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

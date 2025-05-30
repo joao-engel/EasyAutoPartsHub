@@ -75,7 +75,6 @@ function fn_mascaras() {
     $('.data').mask("00/00/0000", { reverse: false });
     $('.mesRef').mask('00/0000', { reverse: false });
     $('.cnpj').mask("00.000.000/0000-00", { reverse: false });
-    $('.decimal').mask('#.##0,00', { reverse: true });
     $('.number').mask('#.##0', { reverse: true });
 }
 
