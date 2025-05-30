@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EasyAutoPartsHub</title>
+    <title>@ViewData["Title"] - EAP Hub</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EasyAutoPartsHub.styles.css" asp-append-version="true" />
@@ -39,7 +39,7 @@
                                 <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Clientes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Fornecedores</a>
+                                <a class="nav-link text-dark sidebar-hover" asp-controller="Fornecedor" asp-action="Index">Fornecedores</a>
                             </li>
                         </ul>
                     </div>
@@ -80,6 +80,8 @@
     <script src="~/lib/font-aweasome/fontawesome.min.js" asp-append-version="true"></script>
     <script src="~/lib/font-aweasome/solid.min.js" asp-append-version="true"></script>
     <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.mask.min.js" asp-append-version="true"></script>
+    <script src="~/js/valdoc.js" asp-append-version="true"></script>
     <script>
         const submenu = document.getElementById('cadastrosSubmenu');
         const arrow = document.getElementById('cadastrosArrow');

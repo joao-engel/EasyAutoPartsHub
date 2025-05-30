@@ -1,0 +1,40 @@
+﻿@model FornecedorModel
+
+@{
+    ViewData["Title"] = "Cadastro - Fornecedor";
+}
+
+<form id="frm-cadastro" enctype="multipart/form-data">
+    <input asp-for="ID" type="hidden" />
+    <div class="row mb-sm-3">
+        <div class="col-sm-6 mb-sm-0 mb-2 col-12">
+            <label asp-for="NomeFantasia" class="control-label">Nome Fantasia</label>
+            <input asp-for="NomeFantasia" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
+        </div>
+        <div class="col-sm-6 mb-sm-0 mb-2 col-12">
+            <label asp-for="RazaoSocial" class="control-label">Razão Social</label>
+            <input asp-for="RazaoSocial" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-sm-3 mb-sm-0 mb-2 col-12 me-sm-2">
+            <label asp-for="CNPJ" class="control-label">CNPJ</label>
+            <input asp-for="CNPJ" type="text" class="form-control form-control-sm cnpj" onblur="validaDoc(this)" required autocomplete="off" pattern=".{18}" />
+        </div>
+        <div class="col-sm-3 mb-sm-0 mb-2 col-12">
+            <label asp-for="Telefone" class="control-label">Telefone</label>
+            <input asp-for="Telefone" type="text" class="form-control form-control-sm" data-telefones autocomplete="off" pattern=".{0}|.{14,15}" />
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Fornecedor", cancelarAction = "Index" })
+
+</form>
+
+@section Scripts {
+    <script>
+        $('#frm-cadastro').submit(function (evt) {
+            fn_submit(evt, '#frm-cadastro', '@Url.Action("Cadastro", "Fornecedor")', '@Url.Action("Index", "Fornecedor")', false);
+        });
+    </script>
+}

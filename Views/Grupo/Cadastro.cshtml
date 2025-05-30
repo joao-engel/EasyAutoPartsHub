@@ -12,11 +12,12 @@
             <input asp-for="Descricao" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
         </div>
     </div>
-    <div class="row"></div>
+    <div class="row">
         <div class="col-12">
             <label asp-for="Observacao" class="control-label">Observação</label>
             <textarea asp-for="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
         </div>
+    </div>       
 
     @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Grupo", cancelarAction = "Index" })
 

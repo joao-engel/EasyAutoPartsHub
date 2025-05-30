@@ -1,0 +1,35 @@
+﻿@model List<FornecedorModel>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-3">Nome Fantasia</th>
+                        <th class="col-4">Razão Social</th>
+                        <th class="col-2">CNPJ</th>
+                        <th class="col-2">Telefone</th>
+                        <th class="col-1">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(x => x.NomeFantasia))
+                    {
+                        <tr>
+                            <td class="text-start">@item.NomeFantasia</td>
+                            <td class="text-start">@item.RazaoSocial</td>
+                            <td class="text-start">@item.CNPJ</td>
+                            <td class="text-start">@item.Telefone</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Fornecedor" asp-action="Cadastro" asp-route-id="@item.ID">
+                                    <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

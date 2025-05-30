@@ -11,7 +11,8 @@ namespace EasyAutoPartsHub
             services.AddScoped<IDapperService, DapperService>();
             services.AddScoped<IGrupoRepository, GrupoRepository>();
             services.AddScoped<IGrupoServices, GrupoServices>();
-
+            services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+            services.AddScoped<IFornecedorServices, FornecedorServices>();
 
             return services;
         }
