@@ -13,39 +13,45 @@
 <body class="vh-100 overflow-hidden">
     <div class="d-flex h-100">
         <!-- Sidebar à esquerda -->
-        <nav class="d-flex flex-column bg-light border-end shadow-lg p-3" style="width: 250px;">
+        <nav class="d-flex flex-column bg-info-subtle border-end shadow-lg p-3" style="width: 250px;">
             <div class="mb-4">
                 <i class="fa-solid fa-store me-2"></i>
                 <span class="fw-bold">EasyAutoPartsHub</span>
             </div>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="nav-link text-dark sidebar-hover" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#cadastrosSubmenu" role="button" aria-expanded="false" aria-controls="cadastrosSubmenu">
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark sidebar-hover d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#cadastrosSubmenu" role="button" aria-expanded="false" aria-controls="cadastrosSubmenu">
                         <span>Cadastros</span>
                         <i class="fa-solid fa-chevron-down transition" id="cadastrosArrow"></i>
                     </a>
                     <div class="collapse ps-3" id="cadastrosSubmenu">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Produto" asp-action="Index">Produtos</a>
+                                <a class="nav-link text-dark sidebar-hover" asp-controller="Produto" asp-action="Index">Produtos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Grupo" asp-action="Index">Grupos</a>
+                                <a class="nav-link text-dark sidebar-hover" asp-controller="Grupo" asp-action="Index">Grupos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Cliente" asp-action="Index">Clientes</a>
+                                <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Fornecedores</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-dark" asp-controller="#" asp-action="#">Pedidos</a>
+                    <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Pedidos</a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-dark" asp-controller="#" asp-action="#">Relatórios</a>
+                    <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Relatórios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark sidebar-hover" asp-controller="#" asp-action="#">Financeiro</a>
                 </li>
             </ul>
         </nav>
