@@ -56,3 +56,33 @@ function fn_submit(evt, formID, urlSubmit, urlRetorno, reloadPage) {
         });
     });
 }
+
+//Mascaras de campos de formulários
+function fn_mascaras() {
+    // Mascara para telefone fixo e celulares
+    var maskTelefones = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+        spTelefonesOptions = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(maskTelefones.apply({}, arguments), options);
+            }
+        };
+    $('[data-telefones]').mask(maskTelefones, spTelefonesOptions);
+
+    $('.moeda').mask("#.##0,00", { reverse: true });
+    $('.cep').mask("00000-000", { reverse: false });
+    $('.data').mask("00/00/0000", { reverse: false });
+    $('.mesRef').mask('00/0000', { reverse: false });
+    $('.cnpj').mask("00.000.000/0000-00", { reverse: false });
+    $('.decimal').mask('#.##0,00', { reverse: true });
+    $('.number').mask('#.##0', { reverse: true });
+}
+
+$(document).on('focusout', 'input[type="text"], textarea', function () {
+    this.value = this.value.trim();
+});
+
+$(function () {
+    fn_mascaras();
+});
