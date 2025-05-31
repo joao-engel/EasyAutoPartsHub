@@ -1,0 +1,11 @@
+﻿@model List<PedidoStatusModel>
+
+
+@foreach (var item in Model)
+{
+    <option value="@item.ID" selected="@(item.ID == ViewBag.id)">@item.Nome</option>
+}
+
+@*
+    @await Component.InvokeAsync("DropPedidoStatus", new {ID = null})
+*@

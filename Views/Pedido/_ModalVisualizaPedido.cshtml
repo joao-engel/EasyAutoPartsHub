@@ -1,0 +1,99 @@
+﻿@model PedidoViewModel
+
+<div class="modal fade" id="modal-visualiza-pedido" tabindex="-1" aria-labelledby="modal-visualiza-pedido-Label" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-visualiza-pedido-Label">PEDIDO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12">
+                        <h6 class="text-start">Cliente</h6>
+                        <input class="form-control text-start" disabled value="@Model.Pedido.Cliente">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-4">
+                        <h6 class="text-start">Status</h6>
+                        <input class="form-control text-start" disabled value="@Model.Pedido.Status">
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <h6 class="text-start">Data Pedido</h6>
+                        <input class="form-control text-start" disabled value="@Model.Pedido.DataEmissao.ToShortTimeString()">
+                    </div>
+                    <div class="col-12 col-sm-4 mt-1 mt-sm-0">
+                        <h6 class="text-start">Valor Total</h6>
+                        <input class="form-control text-end" disabled value="@Model.Pedido.ValorTotal.ToString("N2")">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    @if (Model.Pedido.DataFaturamento.HasValue)
+                    {
+                        <div class="col-12 col-sm-4">
+                            <h6 class="text-start">Data Faturamento</h6>
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataFaturamento?.ToShortTimeString()">
+                        </div>
+                    }
+                    @if (Model.Pedido.DataEntregue.HasValue)
+                    {
+                        <div class="col-12 col-sm-4">
+                            <h6 class="text-start">Data Entregue</h6>
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataEntregue?.ToShortTimeString()">
+                        </div>
+                    }
+                    @if (Model.Pedido.DataCancelado.HasValue)
+                    {
+                        <div class="col-12 col-sm-4">
+                            <h6 class="text-start">Data Cancelado</h6>
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataCancelado?.ToShortTimeString()">
+                        </div>
+                    }
+                </div>
+                <div class="row mt-1">
+                    <div class="col-12">
+                        <h6 class="text-start">Observação</h6>
+                        <textarea class="form-control col-12" rows="2" readonly disabled>@Model.Pedido.Observacao</textarea>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="table-responsive table-responsive-sm">
+                            <table class="table table-sm table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="col-5">Produto</th>
+                                        <th class="col-2">Grupo</th>
+                                        <th class="col-1">Quantidade</th>
+                                        <th class="col-1">Valor Unitário</th>
+                                        <th class="col-1">SubTotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var pedido in Model.Itens.OrderBy(x => x.Produto))
+                                    {
+                                        <tr>
+                                            <td class="text-start">@pedido.Produto</td>
+                                            <td class="text-start">@pedido.Grupo</td>
+                                            <td class="text-end">@pedido.Quantidade</td>
+                                            <td class="text-end">@pedido.ValorUnitario.ToString("N2")</td>
+                                            <td class="text-end">@pedido.SubTotal.ToString("N2")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr class="text-end fw-bold">
+                                        <td colspan="4">TOTAL</td>
+                                        <td><strong>@Model.Pedido.ValorTotal.ToString("N2")</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Pedidos";
+}
+
+<form id="frm-pesquisa">
+    <div class="row align-items-end mb-3 gx-2">
+        <div class="col-sm-2 col-12 mb-3 mb-sm-0">
+            <label class="control-label">Cliente</label>
+            <input type="text" id="clienteNome" value="TODOS" onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly />
+            <input type="hidden" id="clienteID" name="clienteID" />
+        </div>
+        <div class="col-sm-2 col-12 mb-3 mb-sm-0">
+            <label class="control-label">Status</label>
+            <select class="form-select form-select-sm" name="StatusID">
+                <option value="" selected>TODOS</option>
+                @await Component.InvokeAsync("DropPedidoStatus")
+            </select>
+        </div>
+        <div class="col-sm-auto col-12 ms-auto gap-sm-0">
+            <button type="submit" class="btn btn-primary my-0">Pesquisar</button>
+            <a class="btn btn-success my-0" asp-controller="Pedido" asp-action="Cadastro">Novo</a>
+        </div>
+    </div>
+</form>
+
+@await Component.InvokeAsync("ModalClientes", new { todos = true }) 
+
+<div id="div-conteudo"></div>
+<div id="visualizar-pedido"></div>
+
+@section Scripts {
+    <script>     
+        $('#form-clientes').on('submit', function (e) {
+            e.preventDefault();
+            const radioSelecionado = $('#tbl-clientes input[name="clienteRadio"]:checked');
+
+            if (radioSelecionado.length > 0) {
+                const nomeCliente = radioSelecionado.closest('tr').find('td:nth-child(2)').text().trim();
+                const idCliente = radioSelecionado.val();
+
+                $('#clienteNome').val(nomeCliente || 'TODOS');
+                $('#clienteID').val(idCliente);
+            } else {
+                $('#clienteNome').val('SELECIONE');
+                $('#clienteID').val('');
+            }
+        });
+
+         $('#frm-pesquisa').submit(function (evt) {
+            evt.preventDefault();
+
+            let url = "@Url.Action("Index", "Pedido")";
+            let form = $("#frm-pesquisa");
+            let obj = form.serializeArray();
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: obj
+            }).done(function (result, status, xhr, a, b) {
+                $('#div-conteudo').html(result);
+            })
+        });
+
+        $('body').on('submit', 'form[id^="frm-pedido-visualiza-"]', function (evt) {
+            evt.preventDefault();
+
+            let formData = $(this).serialize();
+            let url = "@Url.Action("VisualizarPedido", "Pedido")";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: formData
+            }).done(function (result) {
+                $('#visualizar-pedido').empty();
+                $('#visualizar-pedido').html(result);
+
+                let modalVisualizaPedido = new bootstrap.Modal('#modal-visualiza-pedido');
+                modalVisualizaPedido.show();
+            });
+        });
+    </script>
+}

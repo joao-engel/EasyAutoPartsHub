@@ -1,0 +1,57 @@
+﻿@model List<PedidoCabecalhoModel>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-auto">ID</th>
+                        <th class="col-3">Cliente</th>
+                        <th class="col-2">Data Emissão</th>
+                        <th class="col-2">Status</th>
+                        <th class="col-2">Valor Total</th>
+                        <th class="col-1">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(x => x.DataEmissao))
+                    {
+                        <tr>
+                            <td class="text-start">@item.ID.Value</td>
+                            <td class="text-start">@item.Cliente</td>
+                            <td class="text-center">@item.DataEmissao.ToShortDateString()</td>
+                            <td class="text-center">
+                                @if (item.StatusID == 1)
+                                {
+                                    <span class="badge bg-warning fs-6">Pendente</span>
+                                }
+                                else if (item.StatusID == 2)
+                                {
+                                    <span class="badge bg-primary fs-6">Faturado</span>
+                                }
+                                else if (item.StatusID == 3)
+                                {
+                                    <span class="badge bg-success fs-6">Entregue</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">Cancelado</span>
+                                }
+                            </td>
+                            <td class="text-end">@item.ValorTotal.ToString("N2")</td>
+                            <td class="text-center">
+                                <form id="frm-pedido-visualiza-@item.ID">
+                                    <input type="hidden" name="id" value="@item.ID" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100">
+                                        <i class="fa-solid fa-eye me-2"></i>Visualizar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
