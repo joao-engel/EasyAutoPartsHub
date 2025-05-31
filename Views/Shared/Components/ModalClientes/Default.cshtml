@@ -1,0 +1,103 @@
+﻿@model List<ClienteModel>
+
+<style>
+    #tbl-clientes tr {
+        cursor: pointer;
+    }
+</style>
+
+<div class="modal fade" id="modal-clientes" tabindex="-1" aria-labelledby="modal-clientesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header mb-3">
+                <h1 class="modal-title fs-5" id="modal-clientesLabel">Clientes</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="row mb-3 mx-1">
+                <div class="col-12">
+                    <label for="txtPesquisa">Pesquisa</label>
+                    <input type="text" onkeyup="filtro('tbl-clientes', this)" id="txtPesquisa" class="form-control" placeholder="Pesquisar" />
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-clientes" method="post">
+                    <table id="tbl-clientes" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Clientes</th>
+                                <th>Tipo</th>
+                                <th>Documento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.Todos == true)
+                            {
+                                <tr>
+                                    <td class="text-center"><input type="radio" name="clienteRadio" value="" /></td>
+                                    <td colspan="3" class="fw-bold">TODOS</td>
+                                </tr>
+                            }
+
+                            @foreach (var item in Model.OrderBy(x => x.Nome))
+                            {
+                                <tr>
+                                    <td class="text-center"><input type="radio" name="clienteRadio" value="@item.ID" /></td>
+                                    <td>@item.Nome</td>
+                                    <td>@item.Tipo</td>
+                                    <td>@item.Documento</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="form-clientes" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.getElementById('modal-clientes').addEventListener('shown.bs.modal', () => {
+        document.getElementById('txtPesquisa').focus();
+    });
+
+    // Interação ao clicar na linha da tabela
+    document.querySelectorAll('#tbl-clientes tbody tr').forEach(row => {
+        row.addEventListener('click', () => {
+            const radio = row.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+        });
+    });
+
+</script>
+
+@*
+    <input type="text" id="clienteNome" value="TODOS" onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly />
+    <input type="hidden" id="clienteID" name="clienteID" />
+
+    @await Component.InvokeAsync("ModalClientes", new { todos = true }) 
+
+        $('#form-clientes').on('submit', function (e) {
+            e.preventDefault();
+            const radioSelecionado = $('#tbl-clientes input[name="clienteRadio"]:checked');
+
+            if (radioSelecionado.length > 0) {
+                const nomeCliente = radioSelecionado.closest('tr').find('td:nth-child(2)').text().trim();
+                const idCliente = radioSelecionado.val();
+
+                $('#clienteNome').val(nomeCliente || 'TODOS');
+                $('#clienteID').val(idCliente);
+            } else {
+                $('#clienteNome').val('SELECIONE');
+                $('#clienteID').val('');
+            }
+        });
+*@

@@ -86,3 +86,19 @@ $(document).on('focusout', 'input[type="text"], textarea', function () {
 $(function () {
     fn_mascaras();
 });
+
+function abrirModalClientes() {
+    const modal = new bootstrap.Modal('#modal-clientes');
+    modal.show();
+}
+
+function filtro(idTabela, input) {
+    const termo = input.value.toLowerCase();
+    const linhas = document.querySelectorAll(`#${idTabela} tbody tr`);
+
+    linhas.forEach(linha => {
+        const textoLinha = linha.innerText.toLowerCase();
+        const corresponde = textoLinha.includes(termo);
+        linha.style.display = corresponde ? '' : 'none';
+    });
+}
