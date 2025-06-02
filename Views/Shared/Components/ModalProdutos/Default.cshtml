@@ -1,0 +1,69 @@
+﻿@model List<ProdutoModel>
+
+<div class="modal fade" id="modal-produtos" tabindex="-1" aria-labelledby="modal-produtosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-produtosLabel">Selecionar Produto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-8">
+                        <label class="control-label">Produto</label>
+                        <input type="text" id="pesquisaProduto" class="form-control mb-3" placeholder="Pesquisar..." onkeyup="filtro('tbl-produtos', this)" />
+                    </div>
+                    <div class="col-4">
+                        <label class="control-label">Grupo</label>
+                        <select class="form-select" name="GrupoID">
+                            <option value="" selected>TODOS</option>
+                            @await Component.InvokeAsync("DropGruposProdutos")
+                        </select>
+                    </div>
+                </div>                
+
+                <table class="table table-bordered table-sm" id="tbl-produtos">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.OrderBy(x => x.Descricao))
+                        {
+                            <tr data-grupo="@p.GrupoID">
+                                <td>@p.Descricao</td>
+                                <td>R$ @p.Preco?.ToString("N2")</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-success w-100"
+                                            onclick='adicionarProduto(@Html.Raw(Json.Serialize(new { id = p.ID, nome = p.Descricao, preco = p.Preco })))'>
+                                        Selecionar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('select[name="GrupoID"]').addEventListener('change', function () {
+        const grupoSelecionado = this.value;
+        const linhas = document.querySelectorAll('#tbl-produtos tbody tr');
+
+        linhas.forEach(linha => {
+            const grupoLinha = linha.dataset.grupo;
+
+            if (grupoSelecionado === '' || grupoLinha === grupoSelecionado) {
+                linha.style.display = '';
+            } else {
+                linha.style.display = 'none';
+            }
+        });
+    });
+</script>
