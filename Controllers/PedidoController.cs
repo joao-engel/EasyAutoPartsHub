@@ -47,5 +47,11 @@ namespace EasyAutoPartsHub.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult Cadastro()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "Lançamento de Pedido";
+}
+
+<form id="frm-cadastro" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <div class="col-12 mb-3 mb-sm-0">
+            <label class="control-label">Cliente</label>
+            <input type="text" id="clienteNome" value="Selecione..." onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly/>
+            <input type="hidden" id="clienteID" name="clienteID" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <label class="control-label">Observação</label>
+            <textarea name="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">Itens do Pedido</h6>
+            <button type="button" class="btn btn-sm btn-primary" onclick="abrirModalProdutos()">
+                Adicionar Produto
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-sm table-bordered table-hover" id="tbl-produtos-vinculados">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-4">Produto</th>
+                        <th class="col-1">Quantidade</th>
+                        <th class="col-1">Valor</th>
+                        <th class="col-1">Total</th>
+                        <th class="col-1">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas dinâmicas serão adicionadas via JS -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-end">Total Geral:</th>
+                        <th colspan="2" id="total-geral">R$ 0,00</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- Hidden input para armazenar os itens -->
+    <input type="hidden" id="itensPedido" name="itensPedido" />
+
+
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Pedido", cancelarAction = "Index" })
+</form>
+
+@await Component.InvokeAsync("ModalClientes", new { todos = false })
+@await Component.InvokeAsync("ModalProdutos")
+
+@section Scripts {
+    <script>
+
+        $('#form-clientes').on('submit', function (e) {
+            e.preventDefault();
+            const radioSelecionado = $('#tbl-clientes input[name="clienteRadio"]:checked');
+
+            if (radioSelecionado.length > 0) {
+                const nomeCliente = radioSelecionado.closest('tr').find('td:nth-child(2)').text().trim();
+                const idCliente = radioSelecionado.val();
+
+                $('#clienteNome').val(nomeCliente || 'TODOS');
+                $('#clienteID').val(idCliente);
+            } else {
+                $('#clienteNome').val('SELECIONE');
+                $('#clienteID').val('');
+            }
+        });
+
+        function abrirModalProdutos() {
+            const modalProdutos = new bootstrap.Modal('#modal-produtos');
+            modalProdutos.show();
+        }
+
+        //Manipulação de adicionar/remover produtos
+        const produtosSelecionados = new Set();
+
+        function adicionarProduto(produto) {
+            if (produtosSelecionados.has(produto.id)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Produto já adicionado',
+                    text: `${produto.nome} já está na lista.`,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            produtosSelecionados.add(produto.id);
+
+            const tbody = document.querySelector('#tbl-produtos-vinculados tbody');
+            const tr = document.createElement('tr');
+            tr.dataset.produtoId = produto.id;
+
+            const preco = parseFloat(produto.preco) || 0;
+            const quantidade = 1;
+            const total = preco * quantidade;
+
+            tr.innerHTML = `
+                <td>
+                    ${produto.nome}
+                    <input type="hidden" name="Produtos[${produto.id}].ID" value="${produto.id}" />
+                </td>
+                <td>
+                    <input type="number" class="form-control form-control-sm quantidade-input"
+                           name="Produtos[${produto.id}].Quantidade"
+                           value="${quantidade}" min="1" required
+                           onchange="atualizaTotal(this, ${preco}, ${produto.id})" />
+                </td>
+                <td>R$ ${preco.toFixed(2)}</td>
+                <td id="total-${produto.id}">R$ ${total.toFixed(2)}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removerProduto(${produto.id}, this)">Remover</button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+            atualizaTotalGeral();
+        }
+
+        function removerProduto(id, btn) {
+            produtosSelecionados.delete(id);
+            const linha = btn.closest('tr');
+            linha.remove();
+            atualizaTotalGeral();
+        }
+
+        function atualizaTotal(input, preco, id) {
+            const qtd = parseFloat(input.value) || 0;
+            const total = qtd * preco;
+            document.getElementById(`total-${id}`).textContent = `R$ ${total.toFixed(2)}`;
+            atualizaTotalGeral();
+        }
+
+        function atualizaTotalGeral() {
+            let totalGeral = 0;
+
+            document.querySelectorAll('#tbl-produtos-vinculados tbody tr').forEach(tr => {
+                const totalCelula = tr.querySelector(`td[id^="total-"]`);
+                if (totalCelula) {
+                    const valorTexto = totalCelula.textContent.replace("R$", "").replace(",", ".").trim();
+                    totalGeral += parseFloat(valorTexto) || 0;
+                }
+            });
+
+            document.getElementById("total-geral").textContent = `R$ ${totalGeral.toFixed(2).replace(".", ",")}`;
+        }
+    </script>
+}
