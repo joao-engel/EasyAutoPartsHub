@@ -6,8 +6,8 @@
     <div class="row mb-3">
         <div class="col-12 mb-3 mb-sm-0">
             <label class="control-label">Cliente</label>
-            <input type="text" id="clienteNome" value="Selecione..." onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly/>
-            <input type="hidden" id="clienteID" name="clienteID" required/>
+            <input type="text" id="clienteNome" value="Selecione..." onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly />
+            <input type="hidden" id="clienteID" name="clienteID" required />
         </div>
     </div>
     <div class="row">
@@ -105,6 +105,8 @@
             produtosSelecionados.add(produto.id);
 
             const tbody = document.querySelector('#tbl-produtos-vinculados tbody');
+            const index = tbody.querySelectorAll("tr").length; // Define o índice dinâmico
+
             const tr = document.createElement('tr');
             tr.dataset.produtoId = produto.id;
 
@@ -115,11 +117,11 @@
             tr.innerHTML = `
                 <td>
                     ${produto.nome}
-                    <input type="hidden" name="Produtos[${produto.id}].ID" value="${produto.id}" />
+                    <input type="hidden" name="Produtos[${index}].ID" value="${produto.id}" />
                 </td>
                 <td>
                     <input type="number" class="form-control form-control-sm quantidade-input"
-                           name="Produtos[${produto.id}].Quantidade"
+                           name="Produtos[${index}].Quantidade"
                            value="${quantidade}" min="1" required
                            onchange="atualizaTotal(this, ${preco}, ${produto.id})" />
                 </td>
@@ -161,5 +163,48 @@
 
             document.getElementById("total-geral").textContent = `R$ ${totalGeral.toFixed(2).replace(".", ",")}`;
         }
+
+        //Submit
+        $("#frm-cadastro").on("submit", function (e) {
+            e.preventDefault(); // Impede o submit padrão
+
+            const form = $(this);
+            const url = "@Url.Action("Cadastro", "Pedido")"; // Ajuste conforme seu controller
+
+            const dados = form.serialize(); // Serializa os campos: clienteID, observacao, Produtos[0].ID, Produtos[0].Quantidade, ...
+
+            if ($("[name^='Produtos']").length === 0) {
+                Swal.fire("Aviso", "Adicione ao menos um produto ao pedido.", "warning");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: dados,
+                success: function (res) {
+                    Swal.fire({
+                        title: res,
+                        text: "",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    }).then(() => {
+                        var urlRetorno = "@Url.Action("Index", "Pedido")";
+                        location.replace(urlRetorno);
+                    });
+                },
+                error: function (xhr) {
+                    Swal.fire("Erro", xhr.responseText || "Falha ao salvar o pedido", "error");
+                }
+            });
+        });
     </script>
 }

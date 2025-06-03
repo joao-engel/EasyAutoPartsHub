@@ -1,5 +1,6 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Repository.Dapper;
+using System.Data;
 
 namespace EasyAutoPartsHub.Repository
 {
@@ -8,6 +9,8 @@ namespace EasyAutoPartsHub.Repository
         Task<List<PedidoStatusModel>> ListarStatus();
 		Task<List<PedidoCabecalhoModel>> ListarPedidos(PedidoCabecalhoRQModel model);
 		Task<List<PedidoItemModel>> VisualizarPedido(int pedidoID);
+		Task<int> InserirPedidoCabecalho(PedidoCabecalhoModel model);
+		Task InserirPedidoItem(PedidoItemCadastroModel model);
     }
 
     public class PedidoRepository : IPedidoRepository
@@ -114,6 +117,44 @@ INNER JOIN EasyAutoPartsHubDb.dbo.GrupoProduto GP ON GP.ID = P.GrupoID
 WHERE PedidoID = @pedidoID
 ";
 				return await _dapper.QueryAsync<PedidoItemModel>(sql: sql, param: new { pedidoID }, commandType: System.Data.CommandType.Text);
+            }
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task<int> InserirPedidoCabecalho(PedidoCabecalhoModel model)
+		{
+			try
+			{
+				string sql = @"
+INSERT INTO EasyAutoPartsHubDb.dbo.PedidoCabecalho
+(ClienteID, DataEmissao, StatusID, Observacao)
+VALUES
+(@ClienteID, @DataEmissao, @StatusID, @Observacao)
+SELECT SCOPE_IDENTITY();
+";
+                int ret = await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+                return ret;
+            }
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task InserirPedidoItem(PedidoItemCadastroModel model)
+		{
+			try
+			{
+				string sql = @"
+INSERT INTO EasyAutoPartsHubDb.dbo.PedidoItem
+(PedidoID, ProdutoID, Quantidade, ValorUnitario)
+VALUES
+(@PedidoID, @ProdutoID, @Quantidade, @ValorUnitario)
+";
+				await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
             }
 			catch (Exception)
 			{

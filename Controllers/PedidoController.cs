@@ -53,5 +53,29 @@ namespace EasyAutoPartsHub.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Cadastro(PedidoCadastroModel model)
+        {
+            try
+            {
+                if (!model.ClienteID.HasValue)
+                {
+                    throw new Exception("Informe o cliente!");
+                }
+                if (model.Produtos == null || model.Produtos.Count == 0)
+                {
+                    throw new Exception("Informe ao menos um produto!");
+                }
+
+                await _pedidoServices.Salvar(model);
+
+                return Ok("Pedido cadastrado!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }
