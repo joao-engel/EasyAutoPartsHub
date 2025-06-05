@@ -7,11 +7,11 @@
                 <thead>
                     <tr class="text-center">
                         <th class="col-auto">ID</th>
-                        <th class="col-3">Cliente</th>
+                        <th class="col-4">Cliente</th>
                         <th class="col-2">Data Emissão</th>
                         <th class="col-2">Status</th>
                         <th class="col-2">Valor Total</th>
-                        <th class="col-1">#</th>
+                        <th class="col-auto">#</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,10 +43,40 @@
                             <td class="text-center">
                                 <form id="frm-pedido-visualiza-@item.ID">
                                     <input type="hidden" name="id" value="@item.ID" />
-                                    <button type="submit" class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100">
+                                    <button type="submit" class="btn btn-sm btn-primary mx-0 my-1 text-nowrap w-100">
                                         <i class="fa-solid fa-eye me-2"></i>Visualizar
                                     </button>
                                 </form>
+                                @{
+                                    int[] statusCancelamentos = { 1, 2 };
+                                    if (statusCancelamentos.Contains(item.StatusID))
+                                    {
+                                        <form id="frm-pedido-cancela-@item.ID">
+                                            <input type="hidden" name="id" value="@item.ID" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger mx-0 my-1 text-nowrap w-100">
+                                                <i class="fa-solid fa-ban me-2"></i>Cancelar
+                                            </button>
+                                        </form>
+                                    }
+                                    if (item.StatusID == 1)
+                                    {
+                                        <form id="frm-pedido-faturar-@item.ID">
+                                            <input type="hidden" name="id" value="@item.ID" />
+                                            <button type="submit" class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100">
+                                                <i class="fa-solid fa-file-invoice-dollar me-2"></i>Faturar
+                                            </button>
+                                        </form>
+                                    }
+                                    if (item.StatusID == 2)
+                                    {
+                                        <form id="frm-pedido-entregar-@item.ID">
+                                            <input type="hidden" name="id" value="@item.ID" />
+                                            <button type="submit" class="btn btn-sm btn-outline-success mx-0 my-1 text-nowrap w-100">
+                                                <i class="fa-solid fa-dolly me-2"></i>Entregar
+                                            </button>
+                                        </form>
+                                    }
+                                }
                             </td>
                         </tr>
                     }
