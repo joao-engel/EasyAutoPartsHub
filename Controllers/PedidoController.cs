@@ -77,5 +77,58 @@ namespace EasyAutoPartsHub.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpPost]
+        public IActionResult ModalAlterarSituacao(int id)
+        {
+            try
+            {
+                return ViewComponent("ModalAlterarSituacao", id);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AlterarSituacao(PedidoAlterarStatusModel model)
+        {
+            try
+            {
+                await _pedidoServices.AlterarSituacao(model);
+                return Ok("Situação alterada com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ModalCancelar(int id)
+        {
+            try
+            {
+                return ViewComponent("ModalCancelar", id);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> CancelarPedido (PedidoAlterarStatusModel model)
+        {
+            try
+            {
+                await _pedidoServices.CancelarPedido(model);
+                return Ok("Pedido cancelado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }

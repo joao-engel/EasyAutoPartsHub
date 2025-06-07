@@ -1,6 +1,7 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Models.ViewModels;
 using EasyAutoPartsHub.Repository;
+using System.Reflection;
 using System.Runtime.Intrinsics.X86;
 using System.Transactions;
 
@@ -13,6 +14,8 @@ public interface IPedidoServices
     Task<PedidoCabecalhoModel> ObterPedido(int id);
     Task<PedidoViewModel> VisualizarPedido(int pedidoID);
     Task Salvar(PedidoCadastroModel model);
+    Task AlterarSituacao(PedidoAlterarStatusModel model);
+    Task CancelarPedido(PedidoAlterarStatusModel model);
 }
 
 public class PedidoServices : IPedidoServices
@@ -113,6 +116,72 @@ public class PedidoServices : IPedidoServices
         }
     }
 
+    public async Task AlterarSituacao(PedidoAlterarStatusModel model)
+    {
+        try
+        {
+            ValidarData(model.Data);
+
+            PedidoCabecalhoModel pedido = await ObterPedido(model.ID)
+                ?? throw new Exception("Pedido não encontrado!");
+
+            switch (pedido.StatusID)
+            {
+                case 1:
+                    if (model.Data < pedido.DataEmissao)
+                        throw new Exception("A data de faturamento não pode ser anterior à data de emissão.");
+
+                    await _pedidoRepository.AlterarStatusParaFaturado(model);
+                    return;
+
+                case 2:
+                    if (model.Data < pedido.DataFaturamento)
+                        throw new Exception("A data de faturamento não pode ser anterior à data de faturamento atual.");
+
+                    await _pedidoRepository.AlterarStatusParaEntregue(model);
+                    return;
+
+                default:
+                    throw new Exception($"O status {pedido.Status} não permite alteração!");
+            }
+
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task CancelarPedido(PedidoAlterarStatusModel model)
+    {
+        try
+        {
+            ValidarData(model.Data);
+
+            PedidoCabecalhoModel pedido = await ObterPedido(model.ID)
+                ?? throw new Exception("Pedido não encontrado!");
+
+            if (pedido.StatusID != 1 && pedido.StatusID != 2)
+                throw new Exception($"O status {pedido.Status} não permite cancelamento!");
+
+            if (pedido.DataFaturamento.HasValue)
+            {
+                if (model.Data < pedido.DataFaturamento.Value)
+                    throw new Exception("A data de cancelamento não pode ser anterior que de faturamento");
+            }
+            else if (model.Data < pedido.DataEmissao)
+            {
+                throw new Exception("A data de cancelamento não pode ser anterior que de emissão");
+            }
+
+            await _pedidoRepository.CancelarPedido(model);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
     private async Task InserirPedido(PedidoCabecalhoModel pedCabecalho, List<PedidoItemCadastroModel> lstItens)
     {
         using TransactionScope scope = new(TransactionScopeAsyncFlowOption.Enabled);
@@ -133,5 +202,11 @@ public class PedidoServices : IPedidoServices
             scope.Dispose();
             throw new Exception($"Erro ao inserir pedido<br><hr>{ex.Message}");
         }
+    }
+
+    private static void ValidarData(DateTime data)
+    {
+        if (data > DateTime.Now)
+            throw new Exception("Não pode ser usado data futura!");
     }
 }

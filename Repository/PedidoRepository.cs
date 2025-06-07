@@ -11,6 +11,9 @@ namespace EasyAutoPartsHub.Repository
 		Task<List<PedidoItemModel>> VisualizarPedido(int pedidoID);
 		Task<int> InserirPedidoCabecalho(PedidoCabecalhoModel model);
 		Task InserirPedidoItem(PedidoItemCadastroModel model);
+		Task AlterarStatusParaFaturado(PedidoAlterarStatusModel model);
+		Task AlterarStatusParaEntregue(PedidoAlterarStatusModel model);
+		Task CancelarPedido(PedidoAlterarStatusModel model);
     }
 
     public class PedidoRepository : IPedidoRepository
@@ -161,5 +164,62 @@ VALUES
 				throw;
 			}
 		}
+
+		public async Task AlterarStatusParaFaturado(PedidoAlterarStatusModel model)
+		{
+			try
+			{
+				string sql = @"
+UPDATE EasyAutoPartsHubDb.dbo.PedidoCabecalho SET
+StatusID = 2,
+Observacao = @Observacao,
+DataFaturamento = @Data
+WHERE ID = @ID
+";
+				await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+            }
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task AlterarStatusParaEntregue(PedidoAlterarStatusModel model)
+		{
+			try
+			{
+				string sql = @"
+UPDATE EasyAutoPartsHubDb.dbo.PedidoCabecalho SET
+StatusID = 3,
+Observacao = @Observacao,
+DataEntregue = @Data
+WHERE ID = @ID
+";
+				await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+            }
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+        public async Task CancelarPedido(PedidoAlterarStatusModel model)
+        {
+            try
+            {
+                string sql = @"
+UPDATE EasyAutoPartsHubDb.dbo.PedidoCabecalho SET
+StatusID = 4,
+Observacao = @Observacao,
+DataCancelado = @Data
+WHERE ID = @ID
+";
+                await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

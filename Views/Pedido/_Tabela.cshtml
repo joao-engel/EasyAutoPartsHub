@@ -57,25 +57,22 @@
                                                 <i class="fa-solid fa-ban me-2"></i>Cancelar
                                             </button>
                                         </form>
-                                    }
-                                    if (item.StatusID == 1)
-                                    {
-                                        <form id="frm-pedido-faturar-@item.ID">
+                                        <form id="frm-pedido-alterar-situacao-@item.ID">
                                             <input type="hidden" name="id" value="@item.ID" />
-                                            <button type="submit" class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100">
-                                                <i class="fa-solid fa-file-invoice-dollar me-2"></i>Faturar
-                                            </button>
+                                            @if (item.StatusID == 1)
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100">
+                                                    <i class="fa-solid fa-file-invoice-dollar me-2"></i>Faturar
+                                                </button>
+                                            }
+                                            @if (item.StatusID == 2)
+                                            {
+                                                <button type="submit" class="btn btn-sm btn-outline-success mx-0 my-1 text-nowrap w-100">
+                                                    <i class="fa-solid fa-dolly me-2"></i>Entregar
+                                                </button>
+                                            }
                                         </form>
-                                    }
-                                    if (item.StatusID == 2)
-                                    {
-                                        <form id="frm-pedido-entregar-@item.ID">
-                                            <input type="hidden" name="id" value="@item.ID" />
-                                            <button type="submit" class="btn btn-sm btn-outline-success mx-0 my-1 text-nowrap w-100">
-                                                <i class="fa-solid fa-dolly me-2"></i>Entregar
-                                            </button>
-                                        </form>
-                                    }
+                                    }                                    
                                 }
                             </td>
                         </tr>

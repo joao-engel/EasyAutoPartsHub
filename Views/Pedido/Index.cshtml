@@ -27,6 +27,8 @@
 
 <div id="div-conteudo"></div>
 <div id="visualizar-pedido"></div>
+<div id="alterar-situacao"></div>
+<div id="cancelar-pedido"></div>
 
 @section Scripts {
     <script>     
@@ -46,9 +48,7 @@
             }
         });
 
-         $('#frm-pesquisa').submit(function (evt) {
-            evt.preventDefault();
-
+        function fn_pesquisar() {
             let url = "@Url.Action("Index", "Pedido")";
             let form = $("#frm-pesquisa");
             let obj = form.serializeArray();
@@ -60,6 +60,11 @@
             }).done(function (result, status, xhr, a, b) {
                 $('#div-conteudo').html(result);
             })
+        }
+
+         $('#frm-pesquisa').submit(function (evt) {
+            evt.preventDefault();
+            fn_pesquisar();
         });
 
         $('body').on('submit', 'form[id^="frm-pedido-visualiza-"]', function (evt) {
@@ -79,6 +84,98 @@
                 let modalVisualizaPedido = new bootstrap.Modal('#modal-visualiza-pedido');
                 modalVisualizaPedido.show();
             });
+        });
+
+        $('body').on('submit', 'form[id^="frm-pedido-alterar-situacao-"]', function (evt) {
+            evt.preventDefault();
+
+            let formData = $(this).serialize();
+            let url = "@Url.Action("ModalAlterarSituacao", "Pedido")";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: formData
+            }).done(function (result) {
+                $('#alterar-situacao').empty();
+                $('#alterar-situacao').html(result);
+
+                let modalAlterarSituacao = new bootstrap.Modal('#modal-alterar-situacao');
+                modalAlterarSituacao.show();
+            });
+        });
+
+        $('body').on('submit', '#frm-alterastatus', function (evt) {
+            evt.preventDefault();
+
+            let url = "@Url.Action("AlterarSituacao", "Pedido")";
+            let form = $("#frm-alterastatus");
+            let obj = form.serializeArray();
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: obj
+            }).done(function (result, status, xhr, a, b) {
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById('modal-alterar-situacao'));
+                modalInstance.hide();
+
+                Swal.fire({
+                    title: result,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didOpen: () => {
+                        fn_pesquisar();
+                    }
+                });
+            })
+        });
+
+        $('body').on('submit', 'form[id^="frm-pedido-cancela-"]', function (evt) {
+            evt.preventDefault();
+
+            let formData = $(this).serialize();
+            let url = "@Url.Action("ModalCancelar", "Pedido")";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: formData
+            }).done(function (result) {
+                $('#cancelar-pedido').empty();
+                $('#cancelar-pedido').html(result);
+
+                let modalCancelarPedido = new bootstrap.Modal('#modal-cancelar-pedido');
+                modalCancelarPedido.show();
+            });
+        });
+
+        $('body').on('submit', '#frm-cancelar', function (evt) {
+            evt.preventDefault();
+
+            let url = "@Url.Action("CancelarPedido", "Pedido")";
+            let form = $("#frm-cancelar");
+            let obj = form.serializeArray();
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: obj
+            }).done(function (result, status, xhr, a, b) {
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById('modal-cancelar-pedido'));
+                modalInstance.hide();
+
+                Swal.fire({
+                    title: result,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didOpen: () => {
+                        fn_pesquisar();
+                    }
+                });
+            })
         });
     </script>
 }

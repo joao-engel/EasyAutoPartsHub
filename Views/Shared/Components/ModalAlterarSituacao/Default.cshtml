@@ -1,0 +1,65 @@
+﻿@model PedidoCabecalhoModel
+
+<div class="modal fade" id="modal-alterar-situacao" tabindex="-1" aria-labelledby="modal-alterar-situacaoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title" id="modal-alterar-situacaoLabel">Alterar Situação do Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form id="frm-alterastatus">
+                <input type="hidden" name="id" value="@Model.ID" />
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="control-label">Atual Situação</label>
+                            <input class="form-control text-start" disabled value="@Model.Status">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="control-label">Próxima Situação</label>
+                            <input class="form-control text-start" disabled value="@ViewBag.ProximoStatus">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="control-label">Data @ViewBag.ProximoStatus</label>
+                            <input name="data" class="form-control text-start datetimepicker" placeholder="Selecione data e hora" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="control-label">Observação</label>
+                            <textarea name="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top">
+                    @if (Model.StatusID == 1)
+                    {
+                        <button type="submit" class="btn btn-primary mx-0 my-1 text-nowrap w-25">
+                            <i class="fa-solid fa-file-invoice-dollar me-2"></i>Faturar
+                        </button>
+                    }
+                    @if (Model.StatusID == 2)
+                    {
+                        <button type="submit" class="btn btn-success mx-0 my-1 text-nowrap w-25">
+                            <i class="fa-solid fa-dolly me-2"></i>Entregar
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.datetimepicker').mask('00/00/0000 00:00', { reverse: false });
+
+    flatpickr(".datetimepicker", {
+        enableTime: true,
+        dateFormat: "d/m/Y H:i", // formato: dia/mês/ano hora:minuto
+        time_24hr: true,
+        locale: "pt",
+        allowInput: true,
+        onOpen: function(selectedDates, dateStr, instance) {
+            instance.input.focus();
+        }
+    });
+
+</script>
