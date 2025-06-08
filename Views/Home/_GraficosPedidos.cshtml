@@ -1,0 +1,35 @@
+﻿<!-- Filtro de visualização -->
+<div class="row align-items-center mb-1">
+    <div class="col-auto ms-auto text-end">
+        <div class="btn-group" role="group" aria-label="Visualização">
+            <input type="radio" class="btn-check" name="visao" id="visaoMes" value="mes" autocomplete="off" checked>
+            <label class="btn btn-outline-primary btn-sm" for="visaoMes">Mensal</label>
+
+            <input type="radio" class="btn-check" name="visao" id="visaoAno" value="ano" autocomplete="off">
+            <label class="btn btn-outline-primary btn-sm" for="visaoAno">Anual</label>
+        </div>
+    </div>
+</div>
+
+<!-- Linha de gráficos -->
+<div class="row g-3 mb-4">
+    <!-- Card: Gráfico de Barras -->
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Faturamentos</h6>
+                <div id="grafico-barra" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card: Gráfico de Pizza -->
+    <div class="col-12 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Pedidos por Status</h6>
+                <div id="grafico-pizza" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>

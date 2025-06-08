@@ -67,3 +67,8 @@ table th {
     background-color: #e9ecef;
     opacity: 1;
 }
+
+.progress-bar-animated-custom {
+    width: 0;
+    transition: width 1.5s ease-in-out;
+}

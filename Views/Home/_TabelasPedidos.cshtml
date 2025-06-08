@@ -1,0 +1,103 @@
+﻿<!-- Coluna: Últimos Pedidos -->
+<div class="col-12 col-lg-8">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-muted mb-0">Últimos Pedidos</h6>
+                <select class="form-select form-select-sm w-auto" id="filtroStatusPedido">
+                    <option value="pendente" selected>Pendentes</option>
+                    <option value="faturado">Faturados</option>
+                    <option value="entregue">Entregues</option>
+                    <option value="cancelado">Cancelados</option>
+                </select>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="text-muted small">
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Status</th>
+                            <th class="text-end">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1015</td>
+                            <td>Auto Peças União</td>
+                            <td><span class="badge bg-warning text-dark">Pendente</span></td>
+                            <td class="text-end">R$ 1.250,00</td>
+                        </tr>
+                        <tr>
+                            <td>#1014</td>
+                            <td>Box Car Brasil</td>
+                            <td><span class="badge bg-success">Faturado</span></td>
+                            <td class="text-end">R$ 982,40</td>
+                        </tr>
+                        <tr>
+                            <td>#1013</td>
+                            <td>Oficina da Serra</td>
+                            <td><span class="badge bg-danger">Cancelado</span></td>
+                            <td class="text-end">R$ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>#1012</td>
+                            <td>Auto Center Gaúcho</td>
+                            <td><span class="badge bg-success">Faturado</span></td>
+                            <td class="text-end">R$ 2.145,00</td>
+                        </tr>
+                        <tr>
+                            <td>#1011</td>
+                            <td>Supra Peças</td>
+                            <td><span class="badge bg-warning text-dark">Pendente</span></td>
+                            <td class="text-end">R$ 728,90</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Coluna: Ranking de Clientes -->
+<div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h6 class="text-muted mb-3">Ranking de Clientes</h6>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="text-muted small">
+                        <tr>
+                            <th>Cliente</th>
+                            <th class="text-end">Total Faturado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Box Car Brasil</td>
+                            <td class="text-end fw-semibold text-success">R$ 15.320,00</td>
+                        </tr>
+                        <tr>
+                            <td>Auto Peças União</td>
+                            <td class="text-end fw-semibold text-success">R$ 13.800,00</td>
+                        </tr>
+                        <tr>
+                            <td>Auto Center Gaúcho</td>
+                            <td class="text-end fw-semibold text-success">R$ 12.450,00</td>
+                        </tr>
+                        <tr>
+                            <td>Oficina da Serra</td>
+                            <td class="text-end fw-semibold text-success">R$ 11.000,00</td>
+                        </tr>
+                        <tr>
+                            <td>Supra Peças</td>
+                            <td class="text-end fw-semibold text-success">R$ 9.875,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

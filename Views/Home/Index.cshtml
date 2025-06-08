@@ -1,8 +1,30 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Dashboard</h1>
-    <p>Em breve</p>
+<div id="cabecalho" class="row g-3 mb-4">
+    <partial name="_CardsCabecalho"/> @* model="Model" *@    
 </div>
+
+<div id="graficos-pedidos">
+    <partial name="_GraficosPedidos" />
+</div>
+
+<div class="row g-3">
+    <partial name="_TabelasPedidos" />    
+</div>
+
+
+@section Scripts {
+    <script>
+        // Custom progress bar animation
+        window.addEventListener('load', function () {
+            document.querySelectorAll('.progress-bar-animated-custom').forEach(bar => {
+                const percent = bar.getAttribute('data-progress');
+                if (percent) {
+                    bar.style.width = `${percent}%`;
+                }
+            });
+        });
+    </script>
+}
