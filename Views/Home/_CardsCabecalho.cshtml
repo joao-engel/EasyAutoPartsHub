@@ -1,15 +1,17 @@
-﻿<!-- Card 1: Faturamento Mensal -->
+﻿@model DashboardHeaderModel
+
+<!-- Card 1: Faturamento Mensal -->
 <div class="col-12 col-md-6 col-xl-3">
-    <div class="card shadow-sm h-100">
+    <div class="card shadow-lg h-100">
         <div class="card-body">
             <h6 class="text-muted">Faturamento Mensal</h6>
-            <h4 class="mb-1 fw-semibold text-success">R$ 85.600</h4>
+            <h4 class="mb-1 fw-semibold text-success">R$ @Model.FaturamentoMensal.ToString("N0")</h4>
             <div class="d-flex justify-content-between small text-muted">
-                <span>Meta: R$ 100.000</span>
-                <span>85%</span>
+                <span>Meta: R$ @Model.MetaMensal.ToString("N0")</span>
+                <span>@Model.AtingMensal.ToString("N2")%</span>
             </div>
             <div class="progress mt-1" style="height: 6px;">
-                <div class="progress-bar bg-success progress-bar-animated-custom" data-progress="85"></div>
+                <div class="progress-bar bg-success progress-bar-animated-custom" data-progress="@Model.AtingMensal.ToString("N0")"></div>
             </div>
         </div>
     </div>
@@ -17,16 +19,16 @@
 
 <!-- Card 2: Faturamento Anual -->
 <div class="col-12 col-md-6 col-xl-3">
-    <div class="card shadow-sm h-100">
+    <div class="card shadow-lg h-100">
         <div class="card-body">
             <h6 class="text-muted">Faturamento Anual</h6>
-            <h4 class="mb-1 fw-semibold text-primary">R$ 894.500</h4>
+            <h4 class="mb-1 fw-semibold text-primary">R$ @Model.FaturamentoAnual.ToString("N0")</h4>
             <div class="d-flex justify-content-between small text-muted">
-                <span>Meta: R$ 1.200.000</span>
-                <span>74%</span>
+                <span>Meta: R$ @Model.MetaAnual.ToString("N0")</span>
+                <span>@Model.AtingAnual.ToString("N2")%</span>
             </div>
             <div class="progress mt-1" style="height: 6px;">
-                <div class="progress-bar bg-primary progress-bar-animated-custom" data-progress="74"></div>
+                <div class="progress-bar bg-primary progress-bar-animated-custom" data-progress="@Model.AtingAnual.ToString("N0")"></div>
             </div>
         </div>
     </div>
@@ -34,13 +36,14 @@
 
 <!-- Card 3: Total de Pedidos -->
 <div class="col-12 col-md-6 col-xl-3">
-    <div class="card shadow-sm h-100">
+    <div class="card shadow-lg h-100">
         <div class="card-body">
             <h6 class="text-muted">Total de Pedidos</h6>
-            <h4 class="mb-1 fw-semibold text-dark">315</h4>
+            <h4 class="mb-1 fw-semibold text-dark">@Model.PedidosTotal</h4>
             <div class="d-flex justify-content-between small text-muted">
-                <span>Concluídos: 230</span>
-                <span>Pendentes: 85</span>
+                <span>Concluídos: @Model.PedidosConcluidos</span>
+                <span>Pendentes: @Model.PedidosEmAberto</span>
+                <span>Cancelados: @Model.PedidosCancelados</span>
             </div>
         </div>
     </div>
@@ -51,27 +54,27 @@
     <div class="card shadow-sm h-100">
         <div class="card-body">
             <h6 class="text-muted">Tickets Médios</h6>
-            <div id="carouselTickets" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
-                <div class="carousel-inner">
+            <div id="carouselTickets" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner mt-2">
 
                     <div class="carousel-item active">
                         <div class="text-center">
                             <div class="small text-muted">Valor Médio por Pedido</div>
-                            <h5 class="fw-semibold text-info">R$ 458,20</h5>
+                            <h5 class="fw-semibold text-info">R$ @Model.PedidoValorMedio.ToString("N2")</h5>
                         </div>
                     </div>
 
                     <div class="carousel-item">
                         <div class="text-center">
-                            <div class="small text-muted">Qtd Média de Produtos</div>
-                            <h5 class="fw-semibold text-info">4,6</h5>
+                            <div class="small text-muted">Qtd Média de Produtos Por Pedido</div>
+                            <h5 class="fw-semibold text-info">@Model.PedidoQuantidadeMedia</h5>
                         </div>
                     </div>
 
                     <div class="carousel-item">
                         <div class="text-center">
-                            <div class="small text-muted">Valor Médio por Produto</div>
-                            <h5 class="fw-semibold text-info">R$ 99,60</h5>
+                            <div class="small text-muted">Produtos Vendidos</div>
+                            <h5 class="fw-semibold text-info">@Model.ProdutosVendidos</h5>
                         </div>
                     </div>
                 </div>

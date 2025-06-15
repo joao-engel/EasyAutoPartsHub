@@ -103,3 +103,6 @@ function filtro(idTabela, input) {
         linha.style.display = corresponde ? '' : 'none';
     });
 }
+function capitalize(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}

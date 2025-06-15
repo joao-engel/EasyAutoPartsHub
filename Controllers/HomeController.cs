@@ -1,22 +1,31 @@
-using System.Diagnostics;
 using EasyAutoPartsHub.Models;
+using EasyAutoPartsHub.Models.ViewModels;
+using EasyAutoPartsHub.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace EasyAutoPartsHub.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IDashboardServices dashboardServices) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly IDashboardServices _dashboardServices = dashboardServices;
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                int ano = DateTime.Now.Year;
+                int mes = DateTime.Now.Month;
+                DashboardViewModel model = await _dashboardServices.Dashboard(ano, mes);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                DashboardViewModel model = new();
+                return View(model);
+            }
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -11,5 +11,6 @@ public class PedidoCabecalhoModel
     public int StatusID { get; set; }
     public string Status { get; set; }
     public decimal ValorTotal { get; set; }
+    public int QuantidadeItens { get; set; }
     public string Observacao { get; set; }
 }

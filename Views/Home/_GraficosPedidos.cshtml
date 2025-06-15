@@ -1,34 +1,62 @@
-﻿<!-- Filtro de visualização -->
+﻿@model DashboardGraficosPedidosModel
+
+@{
+    string[] mesesMensal = Model.FaturamentosMensal.Select(x => x.Data).ToArray();
+    decimal[] faturamentosMensal = Model.FaturamentosMensal.Select(x => x.Valor).ToArray();
+    decimal[] metasMensal = Model.FaturamentosMensal.Select(x => x.Meta).ToArray();
+    string[] mesesAnual = Model.FaturamentosAnual.Select(x => x.Data).ToArray();
+    decimal[] faturamentosAnual = Model.FaturamentosAnual.Select(x => x.Valor).ToArray();
+    decimal[] metasAnual = Model.FaturamentosAnual.Select(x => x.Meta).ToArray();
+
+    string[] statusMensal = Model.StatusMensal.Select(x => x.Status).ToArray();
+    int[] quantidadeMensal = Model.StatusMensal.Select(x => x.Quantidade).ToArray();
+    string[] statusAnual = Model.StatusAnual.Select(x => x.Status).ToArray();
+    int[] quantidadeAnual = Model.StatusAnual.Select(x => x.Quantidade).ToArray();
+}
+
+<!-- Filtro de visualização -->
 <div class="row align-items-center mb-1">
     <div class="col-auto ms-auto text-end">
         <div class="btn-group" role="group" aria-label="Visualização">
-            <input type="radio" class="btn-check" name="visao" id="visaoMes" value="mes" autocomplete="off" checked>
+            <input type="radio" class="btn-check" name="visao" id="visaoMes" value="mes" autocomplete="off">
             <label class="btn btn-outline-primary btn-sm" for="visaoMes">Mensal</label>
 
-            <input type="radio" class="btn-check" name="visao" id="visaoAno" value="ano" autocomplete="off">
+            <input type="radio" class="btn-check" name="visao" id="visaoAno" value="ano" autocomplete="off" checked>
             <label class="btn btn-outline-primary btn-sm" for="visaoAno">Anual</label>
         </div>
     </div>
 </div>
 
 <!-- Linha de gráficos -->
-<div class="row g-3 mb-4">
+<div class="row g-2 mb-3">
     <!-- Card: Gráfico de Barras -->
     <div class="col-12 col-lg-8">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-lg h-100">
             <div class="card-body">
                 <h6 class="text-muted">Faturamentos</h6>
-                <div id="grafico-barra" style="height: 300px;"></div>
+                <figure id="grafico-barra" style="height: 300px;"
+                        data-label-mes='@JsonConvert.SerializeObject(mesesMensal)'
+                        data-fat-mes='@JsonConvert.SerializeObject(faturamentosMensal)'
+                        data-metas-mes='@JsonConvert.SerializeObject(metasMensal)'
+                        data-label-ano='@JsonConvert.SerializeObject(mesesAnual)'
+                        data-fat-ano='@JsonConvert.SerializeObject(faturamentosAnual)'
+                        data-metas-ano='@JsonConvert.SerializeObject(metasAnual)'>
+                </figure>
             </div>
         </div>
     </div>
 
     <!-- Card: Gráfico de Pizza -->
     <div class="col-12 col-lg-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-lg h-100">
             <div class="card-body">
                 <h6 class="text-muted">Pedidos por Status</h6>
-                <div id="grafico-pizza" style="height: 300px;"></div>
+                <figure id="grafico-pizza" style="height: 300px;"
+                        data-status-mes='@JsonConvert.SerializeObject(statusMensal)'
+                        data-quantidade-mes='@JsonConvert.SerializeObject(quantidadeMensal)'
+                        data-status-ano='@JsonConvert.SerializeObject(statusAnual)'
+                        data-quantidade-ano='@JsonConvert.SerializeObject(quantidadeAnual)'>
+                </figure>
             </div>
         </div>
     </div>

@@ -10,6 +10,8 @@ public class DashboardHeaderModel
     public int PedidosTotal { get; set; }
     public int PedidosConcluidos { get; set; }
     public int PedidosCancelados { get; set; }
+    public int PedidosEmAberto { get; set; }
     public decimal PedidoValorMedio { get; set; }
     public decimal PedidoQuantidadeMedia { get; set; }
+    public int ProdutosVendidos { get; set; }
 }

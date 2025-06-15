@@ -68,6 +68,7 @@ WITH CTE_Pedidos AS
 	WHERE (@ClienteID IS NULL OR ClienteID = @ClienteID)
 	AND (@StatusID IS NULL OR StatusID = @StatusID)
 	AND (@ID IS NULL OR PC.ID = @ID)
+	AND (@Ano IS NULL OR YEAR(PC.DataEmissao) = @Ano)
 )
 SELECT 
 	P.ID,
@@ -80,6 +81,7 @@ SELECT
 	P.StatusID,
 	P.[Status],
 	SUM(PDI.ValorUnitario * PDI.Quantidade) AS ValorTotal,
+	SUM(PDI.Quantidade) AS QuantidadeItens,
 	P.Observacao
 FROM CTE_Pedidos P
 LEFT JOIN EasyAutoPartsHubDb.dbo.PedidoItem PDI ON PDI.PedidoID = P.ID
