@@ -34,21 +34,21 @@
                     {
                         <div class="col-12 col-sm-4">
                             <h6 class="text-start">Data Faturamento</h6>
-                            <input class="form-control text-start" disabled value="@Model.Pedido.DataFaturamento?.ToShortTimeString()">
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataFaturamento?.ToShortDateString()">
                         </div>
                     }
                     @if (Model.Pedido.DataEntregue.HasValue)
                     {
                         <div class="col-12 col-sm-4">
                             <h6 class="text-start">Data Entregue</h6>
-                            <input class="form-control text-start" disabled value="@Model.Pedido.DataEntregue?.ToShortTimeString()">
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataEntregue?.ToShortDateString()">
                         </div>
                     }
                     @if (Model.Pedido.DataCancelado.HasValue)
                     {
                         <div class="col-12 col-sm-4">
                             <h6 class="text-start">Data Cancelado</h6>
-                            <input class="form-control text-start" disabled value="@Model.Pedido.DataCancelado?.ToShortTimeString()">
+                            <input class="form-control text-start" disabled value="@Model.Pedido.DataCancelado?.ToShortDateString()">
                         </div>
                     }
                 </div>

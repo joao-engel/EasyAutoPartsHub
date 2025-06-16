@@ -133,5 +133,24 @@
 
             fn_graf_barra('grafico-barra', label, fat, metas);
         }
+
+        $('body').on('submit', 'form[id^="frm-pedido-visualiza-"]', function (evt) {
+            evt.preventDefault();
+
+            let formData = $(this).serialize();
+            let url = "@Url.Action("VisualizarPedido", "Pedido")";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: formData
+            }).done(function (result) {
+                $('#visualizar-pedido').empty();
+                $('#visualizar-pedido').html(result);
+
+                let modalVisualizaPedido = new bootstrap.Modal('#modal-visualiza-pedido');
+                modalVisualizaPedido.show();
+            });
+        });
     </script>
 }
