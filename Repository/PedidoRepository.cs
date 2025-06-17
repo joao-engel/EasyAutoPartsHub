@@ -6,7 +6,7 @@ namespace EasyAutoPartsHub.Repository
 {
     public interface IPedidoRepository
     {
-        Task<List<PedidoStatusModel>> ListarStatus();
+        Task<List<StatusModel>> ListarStatus();
 		Task<List<PedidoCabecalhoModel>> ListarPedidos(PedidoCabecalhoRQModel model);
 		Task<List<PedidoItemModel>> VisualizarPedido(int pedidoID);
 		Task<int> InserirPedidoCabecalho(PedidoCabecalhoModel model);
@@ -25,7 +25,7 @@ namespace EasyAutoPartsHub.Repository
             _dapper = dapper;
         }
 
-        public async Task<List<PedidoStatusModel>> ListarStatus()
+        public async Task<List<StatusModel>> ListarStatus()
         {
             try
             {
@@ -36,7 +36,7 @@ SELECT
 	Ordem
 FROM EasyAutoPartsHubDb.dbo.PedidoStatus
 ";
-                return await _dapper.QueryAsync<PedidoStatusModel>(sql, commandType: System.Data.CommandType.Text);
+                return await _dapper.QueryAsync<StatusModel>(sql, commandType: System.Data.CommandType.Text);
             }
             catch (Exception)
             {

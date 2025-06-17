@@ -9,7 +9,7 @@ namespace EasyAutoPartsHub.Services;
 
 public interface IPedidoServices
 {
-    Task<List<PedidoStatusModel>> ListarStatus();
+    Task<List<StatusModel>> ListarStatus();
     Task<List<PedidoCabecalhoModel>> ListarPedidos(PedidoCabecalhoRQModel model);
     Task<PedidoCabecalhoModel> ObterPedido(int id);
     Task<PedidoViewModel> VisualizarPedido(int pedidoID);
@@ -29,7 +29,7 @@ public class PedidoServices : IPedidoServices
         _produtoServices = produtoServices;
     }
 
-    public async Task<List<PedidoStatusModel>> ListarStatus()
+    public async Task<List<StatusModel>> ListarStatus()
     {
         return await _pedidoRepository.ListarStatus();
     }

@@ -1,5 +1,5 @@
 ﻿namespace EasyAutoPartsHub.Models;
-public class PedidoStatusModel
+public class StatusModel
 {
     public int ID { get; set; }
     public string Nome { get; set; }

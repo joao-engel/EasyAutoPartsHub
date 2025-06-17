@@ -1,0 +1,48 @@
+﻿@model List<OrcamentoCabecalhoModel>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-auto">ID</th>
+                        <th class="col-4">Cliente</th>
+                        <th class="col-2">Data</th>
+                        <th class="col-2">Status</th>
+                        <th class="col-2">Valor Total</th>
+                        <th class="col-auto">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderByDescending(x => x.DataOrcamento))
+                    {
+                        <tr>
+                            <td class="text-start">@item.ID.Value</td>
+                            <td class="text-start">@item.Cliente</td>
+                            <td class="text-center">@item.DataOrcamento.ToShortDateString()</td>
+                            <td class="text-center">
+                                @if (item.StatusID == 1)
+                                {
+                                    <span class="badge bg-warning fs-6">Rascunho</span>
+                                }
+                                else if (item.StatusID == 2)
+                                {
+                                    <span class="badge bg-success fs-6">Gerado</span>
+                                }
+                                else if (item.StatusID == 3)
+                                {
+                                    <span class="badge bg-danger fs-6">Cancelado</span>
+                                }
+                            </td>
+                            <td class="text-end">@item.ValorTotal.ToString("N2")</td>
+                            <td class="text-center">
+                                                            
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

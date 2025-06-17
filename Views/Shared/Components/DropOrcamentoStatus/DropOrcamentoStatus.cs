@@ -3,13 +3,13 @@ using EasyAutoPartsHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace EasyAutoPartsHub.Views.Shared.Components.DropGruposProdutos
+namespace EasyAutoPartsHub.Views.Shared.Components.DropOrcamentoStatus
 {
-    public class DropPedidoStatus : ViewComponent
+    public class DropOrcamentoStatus : ViewComponent
     {
-        private readonly IPedidoServices _se;
+        private readonly IOrcamentoServices _se;
 
-        public DropPedidoStatus(IPedidoServices se)
+        public DropOrcamentoStatus(IOrcamentoServices se)
         {
             _se = se;
         }
