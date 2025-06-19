@@ -1,19 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Lançamento de Pedido";
+﻿@model OrcamentoCadastroModel
+
+@{
+    ViewData["Title"] = "Lançamento de Orçamento";
 }
 
 <form id="frm-cadastro" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ID" value="@Model.ID" />
     <div class="row mb-3">
         <div class="col-12 mb-3 mb-sm-0">
             <label class="control-label">Cliente</label>
-            <input type="text" id="clienteNome" value="Selecione..." onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly />
-            <input type="hidden" id="clienteID" name="clienteID" required />
+            @if (!Model.ID.HasValue)
+            {
+                <input type="text" id="clienteNome" value="Selecione..." onclick="abrirModalClientes()" class="form-control form-control-sm" placeholder="Pesquisar" readonly />
+                <input type="hidden" id="clienteID" name="clienteID" required />
+            }
+            else
+            {
+                <input type="text" class="form-control form-control-sm readonly" disabled value="@Model.Cliente" />
+                <input type="hidden" id="clienteID" name="clienteID" value="@Model.ClienteID" />
+            }
+
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <label class="control-label">Observação</label>
-            <textarea name="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
+            <label asp-for="Observacao" class="control-label">Observação</label>
+            <textarea asp-for="Observacao" type="text" class="form-control form-control-sm" rows="2" maxlength="100"></textarea>
         </div>
     </div>
 
@@ -41,7 +53,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Linhas dinâmicas serão adicionadas via JS -->
+                    @if (Model.Produtos != null)
+                    {
+                        int index = 0;
+                        foreach (var produto in Model.Produtos)
+                        {
+                            var total = produto.Quantidade * produto.ValorUnitario;
+                            <tr data-produto-id="@produto.ProdutoID">
+                                <td>
+                                    @produto.Produto
+                                    <input type="hidden" name="Produtos[@index].ProdutoID" value="@produto.ProdutoID" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm quantidade-input"
+                                           name="Produtos[@index].Quantidade"
+                                           value="@produto.Quantidade" min="1" required
+                                           onchange="atualizaTotal(this, @produto.ValorUnitario.ToString(System.Globalization.CultureInfo.InvariantCulture), @produto.ProdutoID)" />
+                                </td>
+                                <td>R$ @produto.ValorUnitario.ToString("N2")</td>
+                                <td id="total-@produto.ProdutoID">R$ @total.ToString("N2")</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="removerProduto(@produto.ProdutoID, this)">Remover</button>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
                 </tbody>
                 <tfoot>
                     <tr>
@@ -57,7 +94,7 @@
     <input type="hidden" id="itensPedido" name="itensPedido" />
 
 
-    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Pedido", cancelarAction = "Index" })
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Orcamento", cancelarAction = "Index" })
 </form>
 
 @await Component.InvokeAsync("ModalClientes", new { todos = false })
@@ -80,6 +117,10 @@
                 $('#clienteNome').val('SELECIONE');
                 $('#clienteID').val('');
             }
+        });
+
+        $(document).ready(function () {
+            atualizaTotalGeral();
         });
 
         function abrirModalProdutos() {
@@ -117,7 +158,7 @@
             tr.innerHTML = `
                 <td>
                     ${produto.nome}
-                    <input type="hidden" name="Produtos[${index}].ID" value="${produto.id}" />
+                    <input type="hidden" name="Produtos[${index}].ProdutoID" value="${produto.id}" />
                 </td>
                 <td>
                     <input type="number" class="form-control form-control-sm quantidade-input"
@@ -164,12 +205,16 @@
             document.getElementById("total-geral").textContent = `R$ ${totalGeral.toFixed(2).replace(".", ",")}`;
         }
 
+        document.querySelectorAll('#tbl-produtos-vinculados tbody tr').forEach(tr => {
+            produtosSelecionados.add(parseInt(tr.dataset.produtoId));
+        });
+
         //Submit
         $("#frm-cadastro").on("submit", function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
 
             const form = $(this);
-            const url = "@Url.Action("Cadastro", "Pedido")";
+            const url = "@Url.Action("Cadastro", "Orcamento")";
 
             const dados = form.serialize();
 
@@ -197,7 +242,7 @@
                             popup: 'animate__animated animate__fadeOutUp'
                         }
                     }).then(() => {
-                        var urlRetorno = "@Url.Action("Index", "Pedido")";
+                        var urlRetorno = "@Url.Action("Index", "Orcamento")";
                         location.replace(urlRetorno);
                     });
                 },

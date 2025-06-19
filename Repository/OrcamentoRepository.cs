@@ -1,5 +1,6 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Repository.Dapper;
+using System.Data;
 
 namespace EasyAutoPartsHub.Repository
 {
@@ -7,6 +8,11 @@ namespace EasyAutoPartsHub.Repository
     {
         Task<List<StatusModel>> ListarStatus();
         Task<List<OrcamentoCabecalhoModel>> ListarOrcamentos(OrcamentoCabecalhoRQModel model);
+        Task<List<OrcamentoItemModel>> ListarItensPorOrcamento(int id);
+        Task<int> InserirOrcamentoCabecalho(OrcamentoCabecalhoModel model);
+        Task AtualizarOrcamentoCabecalho(OrcamentoCabecalhoModel model);
+        Task InserirOrcamentoItem(OrcamentoItemModel model);
+        Task DeletarItensPorOrcamento(int orcamentoID);
     }
 
     public class OrcamentoRepository : IOrcamentoRepository
@@ -81,6 +87,113 @@ GROUP BY
 	O.Observacao
 ";
                 return await _dapper.QueryAsync<OrcamentoCabecalhoModel>(sql: sql, param: model, commandType: System.Data.CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<OrcamentoItemModel>> ListarItensPorOrcamento(int id)
+        {
+            try
+            {
+                string sql = @"
+SELECT
+	OI.OrcamentoID,
+	OI.ProdutoID,
+	P.Descricao AS Produto,
+	GP.Descricao AS Grupo,
+	OI.Quantidade,
+	OI.ValorUnitario,
+	SUM(OI.Quantidade) * OI.ValorUnitario AS SubTotal
+FROM EasyAutoPartsHubDb.dbo.OrcamentoItem OI
+INNER JOIN EasyAutoPartsHubDb.dbo.Produto P ON P.ID = OI.ProdutoID
+INNER JOIN EasyAutoPartsHubDb.dbo.GrupoProduto GP ON GP.ID = P.GrupoID
+WHERE OrcamentoID = @id
+GROUP BY
+	OI.OrcamentoID,
+	OI.ProdutoID,
+	P.Descricao,
+	GP.Descricao,
+	OI.Quantidade,
+	OI.ValorUnitario
+";
+                return await _dapper.QueryAsync<OrcamentoItemModel>(sql: sql, param: new { id }, commandType: System.Data.CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> InserirOrcamentoCabecalho(OrcamentoCabecalhoModel model)
+        {
+            try
+            {
+                string sql = @"
+INSERT INTO EasyAutoPartsHubDb.dbo.OrcamentoCabecalho
+(ClienteID, DataOrcamento, StatusID, Observacao)
+VALUES
+(@ClienteID, @DataOrcamento, @StatusID, @Observacao)
+SELECT SCOPE_IDENTITY();
+";
+                int ret = await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+                return ret;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task AtualizarOrcamentoCabecalho(OrcamentoCabecalhoModel model)
+        {
+            try
+            {
+                string sql = @"
+UPDATE EasyAutoPartsHubDb.dbo.OrcamentoCabecalho SET
+ClienteID = @ClienteID,
+DataOrcamento = @DataOrcamento,
+StatusID = @StatusID,
+Observacao = @Observacao
+WHERE ID = @ID
+";
+                await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task InserirOrcamentoItem(OrcamentoItemModel model)
+        {
+            try
+            {
+                string sql = @"
+INSERT INTO EasyAutoPartsHubDb.dbo.OrcamentoItem
+(OrcamentoID, ProdutoID, Quantidade, ValorUnitario)
+VALUES
+(@OrcamentoID, @ProdutoID, @Quantidade, @ValorUnitario)
+";
+                await _dapper.ExecuteAsync(sql: sql, param: model, commandType: CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeletarItensPorOrcamento(int orcamentoID)
+        {
+            try
+            {
+                string sql = @"
+DELETE FROM EasyAutoPartsHubDb.dbo.OrcamentoItem 
+WHERE OrcamentoID = @orcamentoID
+";
+                await _dapper.ExecuteAsync(sql: sql, param: new { orcamentoID }, commandType: CommandType.Text);
             }
             catch (Exception)
             {

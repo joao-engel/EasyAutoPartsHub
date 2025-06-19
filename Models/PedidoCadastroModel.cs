@@ -1,4 +1,4 @@
-﻿using EasyAutoPartsHub.Models;
+﻿namespace EasyAutoPartsHub.Models;
 
 public class PedidoCadastroModel
 {

@@ -37,7 +37,12 @@
                             </td>
                             <td class="text-end">@item.ValorTotal.ToString("N2")</td>
                             <td class="text-center">
-                                                            
+                                @if (item.StatusID == 1)
+                                {
+                                    <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Orcamento" asp-action="Cadastro" asp-route-id="@item.ID">
+                                        <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
+                                    </a>
+                                }                                
                             </td>
                         </tr>
                     }
