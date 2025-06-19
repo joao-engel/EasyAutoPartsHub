@@ -85,3 +85,12 @@ table th {
     width: 0;
     transition: width 1.5s ease-in-out;
 }
+
+.btn-outline-secondary {
+    border-color: #000 !important;
+}
+
+    .btn-outline-secondary:hover {
+        color: #fff !important;
+        background-color: #393b40 !important;
+    }
