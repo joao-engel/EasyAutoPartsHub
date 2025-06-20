@@ -37,12 +37,18 @@
                             </td>
                             <td class="text-end">@item.ValorTotal.ToString("N2")</td>
                             <td class="text-center">
+                                <form name="frm-visualizar-orcamento">
+                                    <input type="hidden" name="id" value="@item.ID" />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary mx-0 my-1 text-nowrap w-100">
+                                        <i class="fa-solid fa-file-invoice me-2"></i>Visualizar
+                                    </button>
+                                </form>
                                 @if (item.StatusID == 1)
                                 {
                                     <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Orcamento" asp-action="Cadastro" asp-route-id="@item.ID">
                                         <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
                                     </a>
-                                }                                
+                                }
                             </td>
                         </tr>
                     }
@@ -51,3 +57,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('form[name="frm-visualizar-orcamento"]').forEach((frm) => {
+        frm.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+            let form = $(evt.currentTarget).serializeArray();
+
+            $.ajax({
+                method: "POST",
+                url: '@Url.Action("Visualizar", "Orcamento")',
+                data: form,
+                xhrFields: {
+                    responseType: 'blob'
+                }
+            }).done(function (data, status, xhr) {
+                let blob = new Blob([data], { type: 'application/pdf' });
+                let blobUrl = URL.createObjectURL(blob);
+                window.open(blobUrl, '_blank');
+            }).fail(function () {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Não foi possível gerar o orçamento!',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                });
+
+            });
+
+        });
+    });
+</script>

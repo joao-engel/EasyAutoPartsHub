@@ -1,5 +1,7 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Services;
+using iText.Html2pdf;
+using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAutoPartsHub.Controllers
@@ -71,6 +73,27 @@ namespace EasyAutoPartsHub.Controllers
                 await _seOrcamento.Salvar(model);
 
                 return Ok("Orçamento cadastrado!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Visualizar(int id)
+        {
+            try
+            {
+                string html = await _seOrcamento.GerarHtmlOrcamento(id);
+
+                using var ms = new MemoryStream();
+                using var writer = new PdfWriter(ms);
+
+                HtmlConverter.ConvertToPdf(html, writer);
+
+                var nomeArquivo = $"Orcamento_{id}.pdf";
+                return File(ms.ToArray(), "application/pdf", nomeArquivo);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,7 @@
-﻿using EasyAutoPartsHub.Models;
+﻿using EasyAutoPartsHub.Lib;
+using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Repository;
+using System.Text;
 using System.Transactions;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -12,17 +14,20 @@ namespace EasyAutoPartsHub.Services
         Task<List<OrcamentoItemModel>> ListarItensPorOrcamento(int id);
         Task<OrcamentoCadastroModel> ObterOrcamentoCadastro(int id);
         Task Salvar(OrcamentoCadastroModel model);
+        Task<string> GerarHtmlOrcamento(int id);
     }
 
     public class OrcamentoServices : IOrcamentoServices
     {
         private readonly IOrcamentoRepository _orcamentoRepository;
         private readonly IProdutoServices _produtoServices;
+        private readonly IClienteServices _clienteServices;
 
-        public OrcamentoServices(IOrcamentoRepository orcamentoRepository, IProdutoServices produtoServices)
+        public OrcamentoServices(IOrcamentoRepository orcamentoRepository, IProdutoServices produtoServices, IClienteServices clienteServices)
         {
             _orcamentoRepository = orcamentoRepository;
             _produtoServices = produtoServices;
+            _clienteServices = clienteServices;
         }
 
         public async Task<List<StatusModel>> ListarStatus()
@@ -67,6 +72,7 @@ namespace EasyAutoPartsHub.Services
                     ClienteID = orcamento.ClienteID,
                     Cliente = orcamento.Cliente,
                     Observacao = orcamento.Observacao,
+                    DataOrcamento = orcamento.DataOrcamento,
                     Produtos = await ListarItensPorOrcamento(id)
                 };
 
@@ -128,6 +134,54 @@ namespace EasyAutoPartsHub.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public async Task<string> GerarHtmlOrcamento(int id)
+        {
+            try
+            {
+                OrcamentoCadastroModel orcamento = await ObterOrcamentoCadastro(id);
+                ClienteModel cliente = await _clienteServices.Obter(orcamento.ClienteID.Value);
+
+                string tipoDoc = cliente.Tipo == "PF" ? "CPF" : "CNPJ";
+
+                string body = Body.Template("Orcamento.html");
+                body = body.Replace("#ID#", orcamento.ID.Value.ToString())
+                            .Replace("#DataOrcamento#", orcamento.DataOrcamento.ToShortDateString())
+                            .Replace("#Cliente#", orcamento.Cliente)
+                            .Replace("#TipoDoc#", tipoDoc)
+                            .Replace("#Doc#", cliente.Documento)
+                            .Replace("#Contato#", cliente.Telefone)
+                            .Replace("#TotalOrcamento#", orcamento.Produtos.Sum(x => x.SubTotal).ToString("N2"))
+                            .Replace("#Observacao#", orcamento.Observacao);
+
+                StringBuilder sbItens = new();
+                int linha = 1;
+
+                foreach (var item in orcamento.Produtos)
+                {
+                    decimal subtotal = item.Quantidade * item.ValorUnitario;
+
+                    sbItens.AppendLine($"<tr>" +
+                        $"<td>{linha}</td>" +
+                        $"<td>{item.Produto}</td>" +
+                        $"<td>{item.Quantidade}</td>" +
+                        $"<td>{item.ValorUnitario.ToString("N2")}</td>" +
+                        $"<td>{subtotal.ToString("N2")}</td>" +
+                        $"</tr>");
+
+                    linha++;
+                }
+
+                body = body.Replace("#Itens#", sbItens.ToString());
+
+                return body;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
