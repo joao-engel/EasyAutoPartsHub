@@ -1,6 +1,7 @@
 ﻿using EasyAutoPartsHub.Lib;
 using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Repository;
+using Org.BouncyCastle.Utilities;
 using System.Text;
 using System.Transactions;
 using static System.Formats.Asn1.AsnWriter;
@@ -176,6 +177,10 @@ namespace EasyAutoPartsHub.Services
                 }
 
                 body = body.Replace("#Itens#", sbItens.ToString());
+
+                var logo = Body.Logo("logo-dark.png");
+                var base64 = Convert.ToBase64String(logo);
+                body = body.Replace("#base64img#", base64);
 
                 return body;
             }
