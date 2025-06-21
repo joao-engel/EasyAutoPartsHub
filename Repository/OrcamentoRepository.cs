@@ -14,6 +14,7 @@ namespace EasyAutoPartsHub.Repository
         Task InserirOrcamentoItem(OrcamentoItemModel model);
         Task DeletarItensPorOrcamento(int orcamentoID);
         Task DescartarOrcamento(int id);
+        Task ConcluirOrcamento(int id);
     }
 
     public class OrcamentoRepository : IOrcamentoRepository
@@ -209,6 +210,23 @@ WHERE OrcamentoID = @orcamentoID
                 string sql = @"
 UPDATE EasyAutoPartsHubDb.dbo.OrcamentoCabecalho SET
 StatusID = 3
+WHERE ID = @id
+";
+                await _dapper.ExecuteAsync(sql: sql, param: new { id }, commandType: CommandType.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task ConcluirOrcamento(int id)
+        {
+            try
+            {
+                string sql = @"
+UPDATE EasyAutoPartsHubDb.dbo.OrcamentoCabecalho SET
+StatusID = 2
 WHERE ID = @id
 ";
                 await _dapper.ExecuteAsync(sql: sql, param: new { id }, commandType: CommandType.Text);

@@ -9,10 +9,12 @@ namespace EasyAutoPartsHub.Controllers
     public class OrcamentoController : Controller
     {
         private readonly IOrcamentoServices _seOrcamento;
+        private readonly IOrcamentoParaPedidoServices _seOrcamentoParaPedido;
 
-        public OrcamentoController(IOrcamentoServices seOrcamento)
+        public OrcamentoController(IOrcamentoServices seOrcamento, IOrcamentoParaPedidoServices seOrcamentoParaPedido)
         {
             _seOrcamento = seOrcamento;
+            _seOrcamentoParaPedido = seOrcamentoParaPedido;
         }
 
         [HttpGet]
@@ -108,6 +110,20 @@ namespace EasyAutoPartsHub.Controllers
             {
                 await _seOrcamento.DescartarOrcamento(id);
                 return Ok("Orçamento descartado!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GerarPedido(int id)
+        {
+            try
+            {
+                await _seOrcamentoParaPedido.GerarPedido(id);
+                return Ok("Pedido gerado!");
             }
             catch (Exception ex)
             {

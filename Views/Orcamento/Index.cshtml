@@ -45,6 +45,11 @@
             }
         });
 
+        $('#frm-pesquisa').submit(function (evt) {
+            evt.preventDefault();
+            fn_pesquisar();
+        });
+
         function fn_pesquisar() {
             let url = "@Url.Action("Index", "Orcamento")";
             let form = $("#frm-pesquisa");
@@ -56,26 +61,27 @@
                 data: obj
             }).done(function (result, status, xhr, a, b) {
                 $('#div-conteudo').html(result);
-                fn_carrega_pedido_reabrir();
+                fn_orcamento_descartar();
+                fn_gerar_pedido();
             })
         }
 
-        function fn_carrega_pedido_reabrir() {
-            document.querySelectorAll('form[name="frm-orcamento-descartar"]').forEach((frm) => {
+        function fn_gerar_pedido() {
+            document.querySelectorAll('form[name="frm-gerar-pedido"]').forEach((frm) => {
                 frm.addEventListener('submit', (evt) => {
                     evt.preventDefault();
 
-                    let url = "@Url.Action("Descartar", "Orcamento")";
+                    let url = "@Url.Action("GerarPedido", "Orcamento")";
                     let form = $(evt.currentTarget).serializeArray();
 
                     Swal.fire({
-                        title: 'Deseja descartar o orçamento?',
+                        title: 'Deseja gerar o pedido?',
                         text: "",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sim, Descartar!'
+                        confirmButtonText: 'Sim, gerar!'
                     }).then((result) => {
                         if (result.value) {
                             $.ajax({
@@ -100,9 +106,45 @@
             });
         }
 
-        $('#frm-pesquisa').submit(function (evt) {
-            evt.preventDefault();
-            fn_pesquisar();
-        });
+        function fn_orcamento_descartar() {
+            document.querySelectorAll('form[name="frm-orcamento-descartar"]').forEach((frm) => {
+                frm.addEventListener('submit', (evt) => {
+                    evt.preventDefault();
+
+                    let url = "@Url.Action("Descartar", "Orcamento")";
+                    let form = $(evt.currentTarget).serializeArray();
+
+                    Swal.fire({
+                        title: 'Deseja descartar o orçamento?',
+                        text: "",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, descartar!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                method: "POST",
+                                url: url,
+                                data: form
+                            }).done(function (result, status, xhr, a, b) {
+                                Swal.fire({
+                                    title: result,
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    didOpen: () => {
+                                        fn_pesquisar();
+                                    }
+                                });
+                            });
+                        }
+                    });
+
+                });
+            });
+        }
+        
     </script>
 }
