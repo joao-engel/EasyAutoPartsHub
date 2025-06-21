@@ -48,6 +48,12 @@
                                     <a class="btn btn-sm btn-outline-primary mx-0 my-1 text-nowrap w-100" asp-controller="Orcamento" asp-action="Cadastro" asp-route-id="@item.ID">
                                         <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
                                     </a>
+                                    <form name="frm-orcamento-descartar">
+                                        <input type="hidden" name="id" value="@item.ID" />
+                                        <button type="submit" class="btn btn-sm btn-danger mx-0 my-1 text-nowrap w-100">
+                                            <i class="fa-solid fa-trash me-2"></i>Descartar
+                                        </button>
+                                    </form>
                                 }
                             </td>
                         </tr>

@@ -100,5 +100,19 @@ namespace EasyAutoPartsHub.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Descartar(int id)
+        {
+            try
+            {
+                await _seOrcamento.DescartarOrcamento(id);
+                return Ok("Orçamento descartado!");
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }

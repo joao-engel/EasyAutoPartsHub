@@ -16,6 +16,7 @@ namespace EasyAutoPartsHub.Services
         Task<OrcamentoCadastroModel> ObterOrcamentoCadastro(int id);
         Task Salvar(OrcamentoCadastroModel model);
         Task<string> GerarHtmlOrcamento(int id);
+        Task DescartarOrcamento(int id);
     }
 
     public class OrcamentoServices : IOrcamentoServices
@@ -187,6 +188,18 @@ namespace EasyAutoPartsHub.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public async Task DescartarOrcamento(int id)
+        {
+            try
+            {
+                await _orcamentoRepository.DescartarOrcamento(id);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
