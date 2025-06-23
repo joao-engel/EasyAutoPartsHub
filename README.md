@@ -3,22 +3,6 @@
 <p><strong>Sistema Web para Gestão de Pedidos e Orçamentos de Autopeças</strong><br>
 Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</strong> e <strong>arquitetura limpa</strong>.</p>
 
-<h2>🚀 Em Desenvolvimento Futuro</h2>
-<ul>
-  <li>🔜 Exportação de relatórios para Excel</li>
-  <li>🔜 Controle de usuários e permissões</li>
-  <li>🔜 Histórico de alterações (Auditoria)</li>
-</ul>
-
-<h2>📋 Funcionalidades Principais</h2>
-<ul>
-  <li>✅ Cadastro de <strong>Produtos</strong>, <strong>Clientes</strong>, <strong>Fornecedores</strong> e <strong>Grupos</strong></li>
-  <li>✅ <strong>Orçamentos</strong> → PDF e conversão em pedido</li>
-  <li>✅ <strong>Pedidos</strong> → Controle de status (Pendente → Faturado → Entregue/Cancelado)</li>
-  <li>✅ <strong>Dashboard</strong> → Faturamento, pedidos, ticket médio, gráficos</li>
-  <li>✅ <strong>Relatórios</strong> → Por período, cliente, produto, fornecedor, conversão</li>
-</ul>
-
 <h2>🛠️ Tecnologias Utilizadas</h2>
 
 <p>
@@ -32,3 +16,19 @@ Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</str
   <img src="https://img.shields.io/badge/ECharts-FF5722?logo=apacheecharts&logoColor=white&style=for-the-badge" alt="ECharts Badge" />
   <img src="https://img.shields.io/badge/SweetAlert2-FF4081?style=for-the-badge" alt="SweetAlert2 Badge" />
 </p>
+
+<h2>📋 Funcionalidades Principais</h2>
+<ul>
+  <li>✅ Cadastro de <strong>Produtos</strong>, <strong>Clientes</strong>, <strong>Fornecedores</strong> e <strong>Grupos</strong></li>
+  <li>✅ <strong>Orçamentos</strong> → PDF e conversão em pedido</li>
+  <li>✅ <strong>Pedidos</strong> → Controle de status (Pendente → Faturado → Entregue/Cancelado)</li>
+  <li>✅ <strong>Dashboard</strong> → Faturamento, pedidos, ticket médio, gráficos</li>
+  <li>✅ <strong>Relatórios</strong> → Por período, cliente, produto, fornecedor, conversão</li>
+</ul>
+
+<h2>🚀 Em Desenvolvimento Futuro</h2>
+<ul>
+  <li>🔜 Exportação de relatórios para Excel</li>
+  <li>🔜 Controle de usuários e permissões</li>
+  <li>🔜 Histórico de alterações (Auditoria)</li>
+</ul>
