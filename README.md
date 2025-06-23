@@ -3,6 +3,13 @@
 <p><strong>Sistema Web para Gestão de Pedidos e Orçamentos de Autopeças</strong><br>
 Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</strong> e <strong>arquitetura limpa</strong>.</p>
 
+<h2>🚀 Em Desenvolvimento Futuro</h2>
+<ul>
+  <li>🔜 Exportação de relatórios para Excel</li>
+  <li>🔜 Controle de usuários e permissões</li>
+  <li>🔜 Histórico de alterações (Auditoria)</li>
+</ul>
+
 <h2>📋 Funcionalidades Principais</h2>
 <ul>
   <li>✅ Cadastro de <strong>Produtos</strong>, <strong>Clientes</strong>, <strong>Fornecedores</strong> e <strong>Grupos</strong></li>
