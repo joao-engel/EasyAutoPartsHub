@@ -30,5 +30,4 @@ Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</str
 <ul>
   <li>🔜 Exportação de relatórios para Excel</li>
   <li>🔜 Controle de usuários e permissões</li>
-  <li>🔜 Histórico de alterações (Auditoria)</li>
 </ul>
