@@ -94,3 +94,9 @@ table th {
         color: #fff !important;
         background-color: #393b40 !important;
     }
+
+a.list-group-item.text-primary:hover {
+    color: #fff !important;
+    background-color: rgba(var(--bs-primary-rgb)) !important;
+    /*border: solid 1px #0d6efd !important;*/
+}
