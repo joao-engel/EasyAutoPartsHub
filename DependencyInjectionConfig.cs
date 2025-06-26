@@ -24,6 +24,8 @@ namespace EasyAutoPartsHub
             services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
             services.AddScoped<IOrcamentoServices, OrcamentoServices>();
             services.AddScoped<IOrcamentoParaPedidoServices, OrcamentoParaPedidoServices>();
+            services.AddScoped<IRelatorioRepository, RelatorioRepository>();
+            services.AddScoped<IRelatorioServices, RelatorioServices>();
 
             return services;
         }
