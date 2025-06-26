@@ -1,0 +1,37 @@
+﻿@model FiltrosModel
+
+<div class="row align-items-center gx-4">
+    <div class="col-sm col-12 mb-2 mb-sm-0">
+        <h5 class="text-uppercase my-0">@Model.Titulo</h5>
+    </div>
+    <div class="col-sm-1 col-12">
+        <div class="row justify-content-end">
+            @if (!string.IsNullOrWhiteSpace(Model.ControllerVoltar))
+            {
+                <div class="col-12">
+                    <a class="btn btn-sm btn-outline-secondary w-100" asp-controller="@Model.ControllerVoltar" asp-action="@Model.ActionVoltar" asp-all-route-data="@Model.RotasVoltar">
+                        <i class="fa fa-reply me-2" aria-hidden="true"></i> Voltar
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+@*
+    <div>
+        @await Component.InvokeAsync("Filtro1", new FiltrosModel
+            {
+                Titulo = "Minhas Franquias",
+                    Mes = (int?)null,
+                    AnoInicio = 0,
+                    Ano = (int?)null,
+                    BntPesquisa = false,
+                    ControllerVoltar = "Home",
+                    ActionVoltar = "Index",
+                    RotasVoltar = new Dictionary<string, string> { { "", "" } }
+            })
+    </div>
+*@
+
