@@ -7,6 +7,7 @@ namespace EasyAutoPartsHub.Repository;
 public interface IRelatorioRepository
 {
     Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim);
+    Task<List<RelFaturamentoClienteModel>> FaturamentoCliente(DateTime dataIni, DateTime dataFim);
 }
 
 public class RelatorioRepository : IRelatorioRepository
@@ -41,6 +42,37 @@ LEFT JOIN EasyAutoPartsHubDb.dbo.Produto P ON P.ID = PDI.ProdutoID
 GROUP BY P.Descricao
 ";
             return await _dapper.QueryAsync<RelFaturamentoProdutoModel>(sql: sql, param: new { dataIni, dataFim }, commandType: CommandType.Text);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<RelFaturamentoClienteModel>> FaturamentoCliente(DateTime dataIni, DateTime dataFim)
+    {
+        try
+        {
+            string sql = @"
+;WITH CTE_Pedidos AS
+(
+	SELECT
+		PC.ID,
+		C.Nome
+	FROM EasyAutoPartsHubDb.dbo.PedidoCabecalho PC
+	INNER JOIN EasyAutoPartsHubDb.dbo.Cliente C ON C.ID = PC.ClienteID
+	WHERE PC.DataFaturamento BETWEEN @dataIni AND @dataFim
+	AND PC.StatusID IN (2,3)
+)
+SELECT
+	PED.Nome AS Cliente,
+	SUM(PDI.Quantidade) AS Quantidade,
+	SUM(PDI.Quantidade * PDI.ValorUnitario) AS ValorFaturado
+FROM CTE_Pedidos PED
+INNER JOIN EasyAutoPartsHubDb.dbo.PedidoItem PDI ON PDI.PedidoID = PED.ID
+GROUP BY PED.Nome
+";
+            return await _dapper.QueryAsync<RelFaturamentoClienteModel>(sql: sql, param: new { dataIni, dataFim }, commandType: CommandType.Text);
         }
         catch (Exception)
         {

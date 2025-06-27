@@ -37,5 +37,25 @@ namespace EasyAutoPartsHub.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult FaturamentoCliente()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FaturamentoCliente(DateTime dataIni, DateTime dataFim)
+        {
+            try
+            {
+                var ret = await _relatorioServices.FaturamentoCliente(dataIni, dataFim);
+                return PartialView("_TabelaFaturamentoCliente", ret);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }
