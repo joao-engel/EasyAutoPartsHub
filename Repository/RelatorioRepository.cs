@@ -6,7 +6,7 @@ namespace EasyAutoPartsHub.Repository;
 
 public interface IRelatorioRepository
 {
-    Task<List<RelFaturamentoProdutoModel>> FaturamentoPeriodo(DateTime dataIni, DateTime dataFim);
+    Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim);
 }
 
 public class RelatorioRepository : IRelatorioRepository
@@ -18,7 +18,7 @@ public class RelatorioRepository : IRelatorioRepository
         _dapper = dapper;
     }
 
-    public async Task<List<RelFaturamentoProdutoModel>> FaturamentoPeriodo(DateTime dataIni, DateTime dataFim)
+    public async Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim)
     {
         try
         {

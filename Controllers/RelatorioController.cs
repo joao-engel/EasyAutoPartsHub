@@ -29,7 +29,7 @@ namespace EasyAutoPartsHub.Controllers
         {
             try
             {
-                var ret = await _relatorioServices.FaturamentoPeriodo(dataIni, dataFim);
+                var ret = await _relatorioServices.FaturamentoProduto(dataIni, dataFim);
                 return PartialView("_TabelaFaturamentoProduto", ret);
             }
             catch (Exception ex)

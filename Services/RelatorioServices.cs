@@ -5,7 +5,7 @@ namespace EasyAutoPartsHub.Services;
 
 public interface IRelatorioServices
 {
-    Task<List<RelFaturamentoProdutoModel>> FaturamentoPeriodo(DateTime dataIni, DateTime dataFim);
+    Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim);
 }
 
 public class RelatorioServices : IRelatorioServices
@@ -17,11 +17,11 @@ public class RelatorioServices : IRelatorioServices
         _relatorioRepository = relatorioRepository;
     }
 
-    public async Task<List<RelFaturamentoProdutoModel>> FaturamentoPeriodo(DateTime dataIni, DateTime dataFim)
+    public async Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim)
     {
 		try
 		{
-			return await _relatorioRepository.FaturamentoPeriodo(dataIni, dataFim);
+			return await _relatorioRepository.FaturamentoProduto(dataIni, dataFim);
         }
 		catch (Exception)
 		{
