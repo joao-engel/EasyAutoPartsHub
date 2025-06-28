@@ -18,20 +18,23 @@
         </div>
         <div class="col-sm-auto col-12 ms-auto gap-sm-0">
             <button type="submit" class="btn btn-primary my-0">Pesquisar</button>
-            <a class="btn btn-success my-0" asp-controller="Pedido" asp-action="Cadastro">Lançar Pedido</a>
+            <a class="btn btn-outline-secondary my-0" asp-controller="Pedido" asp-action="Cadastro">Lançar Pedido</a>
+            <button type="button" id="btnExcel" class="btn btn-success my-0">Excel</button>
         </div>
     </div>
 </form>
 
-@await Component.InvokeAsync("ModalClientes", new { todos = true }) 
+@await Component.InvokeAsync("ModalClientes", new { todos = true })
 
 <div id="div-conteudo"></div>
 <div id="visualizar-pedido"></div>
 <div id="alterar-situacao"></div>
 <div id="cancelar-pedido"></div>
 
+<script asp-append-version="true" src="~/js/excel.js"></script>
 @section Scripts {
-    <script>     
+    <script>
+
         $('#form-clientes').on('submit', function (e) {
             e.preventDefault();
             const radioSelecionado = $('#tbl-clientes input[name="clienteRadio"]:checked');
@@ -62,7 +65,7 @@
             })
         }
 
-         $('#frm-pesquisa').submit(function (evt) {
+        $('#frm-pesquisa').submit(function (evt) {
             evt.preventDefault();
             fn_pesquisar();
         });
@@ -176,6 +179,10 @@
                     }
                 });
             })
+        });
+
+        $('body').on('click', '#btnExcel', function (evt) {
+            fn_gera_excel('tbl', 'Pedidos');
         });
     </script>
 }

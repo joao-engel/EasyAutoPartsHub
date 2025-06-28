@@ -25,16 +25,18 @@
         </div>
         <div class="col-sm-auto col-12 ms-auto gap-sm-0">
             <button type="submit" class="btn btn-primary my-0">Pesquisar</button>
-            <a class="btn btn-success my-0" asp-controller="Cliente" asp-action="Cadastro">Novo</a>
+            <a class="btn btn-outline-secondary my-0" asp-controller="Cliente" asp-action="Cadastro">Novo</a>
+            <button type="button" id="btnExcel" class="btn btn-success my-0">Excel</button>
         </div>
     </div>
 </form>
 
 <div id="div-conteudo"></div>
 
+<script asp-append-version="true" src="~/js/excel.js"></script>
 @section Scripts {
     <script>
-         $('#frm-pesquisa').submit(function (evt) {
+        $('#frm-pesquisa').submit(function (evt) {
             evt.preventDefault();
 
             let url = "@Url.Action("Index", "Cliente")";
@@ -48,6 +50,10 @@
             }).done(function (result, status, xhr, a, b) {
                 $('#div-conteudo').html(result);
             })
+        });
+
+        $('body').on('click', '#btnExcel', function (evt) {
+            fn_gera_excel('tbl', 'Clientes');
         });
     </script>
 }
