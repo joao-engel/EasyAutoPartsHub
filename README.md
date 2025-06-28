@@ -24,10 +24,10 @@ Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</str
   <li>✅ <strong>Pedidos</strong> → Controle de status (Pendente → Faturado → Entregue/Cancelado)</li>
   <li>✅ <strong>Dashboard</strong> → Faturamento, pedidos, ticket médio, gráficos</li>
   <li>✅ <strong>Relatórios</strong> → Por período, cliente, produto, fornecedor, conversão</li>
+  <li>✅ <strong>Exportação de tabelas para Excel</strong> → Em relatórios e listagens</li>
 </ul>
 
 <h2>🚀 Em Desenvolvimento Futuro</h2>
 <ul>
-  <li>🔜 Exportação de relatórios para Excel</li>
   <li>🔜 Controle de usuários e permissões</li>
 </ul>
