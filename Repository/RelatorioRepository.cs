@@ -8,6 +8,7 @@ public interface IRelatorioRepository
 {
     Task<List<RelFaturamentoProdutoModel>> FaturamentoProduto(DateTime dataIni, DateTime dataFim);
     Task<List<RelFaturamentoClienteModel>> FaturamentoCliente(DateTime dataIni, DateTime dataFim);
+    Task<List<RelOrcamentoStatusModel>> OrcamentoStatus(DateTime dataIni, DateTime dataFim);
 }
 
 public class RelatorioRepository : IRelatorioRepository
@@ -73,6 +74,37 @@ INNER JOIN EasyAutoPartsHubDb.dbo.PedidoItem PDI ON PDI.PedidoID = PED.ID
 GROUP BY PED.Nome
 ";
             return await _dapper.QueryAsync<RelFaturamentoClienteModel>(sql: sql, param: new { dataIni, dataFim }, commandType: CommandType.Text);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public Task<List<RelOrcamentoStatusModel>> OrcamentoStatus(DateTime dataIni, DateTime dataFim)
+    {
+        try
+        {
+            string sql = @"
+;WITH CTE_Orcamentos AS
+(
+	SELECT 
+		OC.ID AS OrcamentoID,
+		OS.Nome AS [Status]
+	FROM EasyAutoPartsHubDb.dbo.OrcamentoCabecalho OC
+	INNER JOIN EasyAutoPartsHubDb.dbo.OrcamentoStatus OS ON OS.ID = OC.StatusID
+	WHERE DataOrcamento BETWEEN @dataIni AND @dataFim
+)
+SELECT 
+	O.[Status],
+	COUNT(DISTINCT OI.OrcamentoID) AS QuantidadeOrcamentos,
+	SUM(OI.Quantidade) AS QuantidadeProdutos,
+	SUM(OI.Quantidade * OI.ValorUnitario) AS ValorTotal
+FROM CTE_Orcamentos AS O
+INNER JOIN EasyAutoPartsHubDb.dbo.OrcamentoItem OI ON OI.OrcamentoID = O.OrcamentoID
+GROUP BY O.[Status]
+";
+            return _dapper.QueryAsync<RelOrcamentoStatusModel>(sql: sql, param: new { dataIni, dataFim }, commandType: CommandType.Text);
         }
         catch (Exception)
         {

@@ -1,0 +1,39 @@
+﻿@model List<RelOrcamentoStatusModel>
+
+<div class="col-sm-12 mt-2">
+    <div class="alert alert-light shadow py-0" role="alert" style="height: 60px;">
+        <div class="d-flex justify-content-between align-items-center h-100">
+            <div class="fs-5"><b>Quantidade de Orçamentos:</b> @Model.Sum(x => x.QuantidadeOrcamentos)</div>
+            <div class="fs-5"><b>Total de Produtos Orçados:</b> @Model.Sum(x => x.QuantidadeProdutos)</div>
+            <div class="fs-5"><b>Valor Total Orçado:</b> @Model.Sum(x => x.ValorTotal).ToString("N2")</div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-6">Status</th>
+                        <th class="col-2">Quantidade de Orçamentos</th>
+                        <th class="col-2">Quantidade de Produtos</th>
+                        <th class="col-2">Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prod in Model.OrderByDescending(x => x.Status))
+                    {
+                        <tr>
+                            <td class="text-start">@prod.Status</td>
+                            <td class="text-end">@prod.QuantidadeOrcamentos.ToString("N0")</td>
+                            <td class="text-end">@prod.QuantidadeProdutos.ToString("N0")</td>
+                            <td class="text-end">@prod.ValorTotal.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

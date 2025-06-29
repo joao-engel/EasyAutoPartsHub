@@ -20,29 +20,10 @@
                     <a asp-controller="Relatorio" asp-action="FaturamentoCliente" class="list-group-item list-group-item-action text-primary">
                         Por Cliente
                     </a>
-                    @* <a href="#" class="list-group-item list-group-item-action text-primary">
-                        Por Fornecedor
-                    </a> *@
                 </div>
             </div>            
         </div>
     </div>
-    
-    @* <div class="col-12 col-sm-6">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa-solid fa-boxes-stacked me-2"></i> PRODUTOS
-            </div>
-            <div class="card-body p-2">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action text-primary">
-                        Mais Vendidos
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div> *@
     
     <div class="col-12 col-sm-6">
         <div class="card">
@@ -51,7 +32,7 @@
             </div>
             <div class="card-body p-2">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action text-primary">
+                    <a asp-controller="Relatorio" asp-action="OrcamentoStatus" class="list-group-item list-group-item-action text-primary">
                         Por Status
                     </a>
                     <a href="#" class="list-group-item list-group-item-action text-primary">

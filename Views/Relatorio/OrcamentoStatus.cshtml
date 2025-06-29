@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Orçamentos por Status";
+}
+
+<div>
+    @await Component.InvokeAsync("FiltroHead", new FiltrosModel
+    {
+        Titulo = "Relatório - Orçamentos por Status",
+        ControllerVoltar = "Relatorio",
+        ActionVoltar = "Index",
+        RotasVoltar = new Dictionary<string, string> { { "", "" } }
+        })
+</div>
+<hr />
+
+<form id="frm-pesquisa">
+    <div class="row align-items-end mt-2 mb-3 gx-2">
+        <div class="col-6 col-sm-2">
+            <label for="dataini">Data Início</label>
+            <input type="text" id="dataIni" name="dataIni" class="form-control datepicker" required placeholder="Informe a data inicial" autocomplete="off">
+        </div>
+        <div class="col-6 col-sm-2">
+            <label for="datafim">Data Fim</label>
+            <input type="text" id="dataFim" name="dataFim" class="form-control datepicker" required placeholder="Informe a data final" autocomplete="off">
+        </div>
+        <div class="col-sm-auto col-12 ms-auto gap-sm-0">
+            <button type="submit" class="btn btn-primary my-0">Pesquisar</button>
+            <button type="button" id="btnExcel" class="btn btn-success my-0">Excel</button>
+        </div>
+    </div>
+</form>
+
+<div id="div-conteudo"></div>
+
+<script asp-append-version="true" src="~/js/excel.js"></script>
+@section Scripts {
+    <script>
+        let dataInicioPicker = flatpickr("#dataIni", {
+            dateFormat: "d/m/Y",
+            locale: "pt",
+            allowInput: true,
+            onChange: function(selectedDates, dateStr, instance) {
+                dataFimPicker.set('minDate', selectedDates[0]);
+            }
+        });
+
+        let dataFimPicker = flatpickr("#dataFim", {
+            dateFormat: "d/m/Y",
+            locale: "pt",
+            allowInput: true,
+            onChange: function(selectedDates, dateStr, instance) {
+                dataInicioPicker.set('maxDate', selectedDates[0]);
+            }
+        });
+
+        $('#frm-pesquisa').submit(function (evt) {
+            evt.preventDefault();
+
+            let url = "@Url.Action("OrcamentoStatus", "Relatorio")";
+            let form = $("#frm-pesquisa");
+            let obj = form.serializeArray();
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: obj
+            }).done(function (result, status, xhr, a, b) {
+                $('#div-conteudo').html(result);
+            })
+        });
+
+        $('body').on('click', '#btnExcel', function (evt) {
+            fn_gera_excel('tbl', 'Orçamentos por Status');
+        });
+    </script>
+}

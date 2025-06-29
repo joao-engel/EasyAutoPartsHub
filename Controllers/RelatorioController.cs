@@ -57,5 +57,25 @@ namespace EasyAutoPartsHub.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult OrcamentoStatus()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrcamentoStatus(DateTime dataIni, DateTime dataFim)
+        {
+            try
+            {
+                var ret = await _relatorioServices.OrcamentoStatus(dataIni, dataFim);
+                return PartialView("_TabelaOrcamentoStatus", ret);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }
