@@ -1,0 +1,42 @@
+﻿@model UsuarioModel
+
+@{
+    ViewData["Title"] = "Cadastro - Usuário";
+}
+
+<form id="frm-cadastro" enctype="multipart/form-data">
+    <input asp-for="ID" type="hidden" />
+    <div class="row mb-sm-3">
+        <div class="col-sm-4 mb-sm-0 mb-2 col-12">
+            <label asp-for="Nome" class="control-label">Nome Completo</label>
+            <input asp-for="Nome" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
+        </div>
+        <div class="col-sm-4 mb-sm-0 mb-2 col-12">
+            <label asp-for="Usuario" class="control-label">Usuário</label>
+            <input asp-for="Usuario" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="50" />
+        </div>        
+    </div>
+    <div class="row mb-sm-3">
+        <div class="col-12 mb-sm-0 mb-2">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input asp-for="Email" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="200" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 mb-sm-0 mb-2">
+            <label asp-for="Senha" class="control-label">Senha</label>
+            <input asp-for="Senha" type="text" class="form-control form-control-sm" required autocomplete="off" maxlength="100" />
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("PgFooterSalvar", new { submit = true, cancelarController = "Usuario", cancelarAction = "Index" })
+
+</form>
+
+@section Scripts {
+    <script>
+        $('#frm-cadastro').submit(function (evt) {
+            fn_submit(evt, '#frm-cadastro', '@Url.Action("Cadastro", "Usuario")', '@Url.Action("Index", "Usuario")', false);
+        });
+    </script>
+}

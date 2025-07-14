@@ -1,0 +1,55 @@
+﻿@model List<UsuarioModel>
+
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<div class="row align-items-end mb-3 gx-2">
+    <div class="col-sm-auto col-12 ms-auto gap-sm-0">
+        <a class="btn btn-outline-secondary my-0" asp-controller="Usuario" asp-action="Cadastro">Novo</a>
+        <button type="button" id="btnExcel" class="btn btn-success my-0">Excel</button>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12">
+        <div class="table-responsive-sm">
+            <table id="tbl" class="table table-sm table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="col-4">Nome</th>
+                        <th class="col-2">Usuário</th>
+                        <th class="col-4">Email</th>
+                        <th class="col-1">Data Cadastro</th>
+                        <th class="col-1">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(x => x.Nome))
+                    {
+                        <tr>
+                            <td class="text-start">@item.Nome</td>
+                            <td class="text-start">@item.Usuario</td>
+                            <td class="text-start">@item.Email</td>
+                            <td class="text-start">@item.DataCadastro.ToShortDateString()</td>
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-outline-secondary mx-0 my-1 text-nowrap w-100" asp-controller="Usuario" asp-action="Cadastro" asp-route-id="@item.ID">
+                                    <i class="fa fa-pencil me-2" aria-hidden="true"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script asp-append-version="true" src="~/js/excel.js"></script>
+@section Scripts {
+    <script>
+        $('body').on('click', '#btnExcel', function (evt) {
+            fn_gera_excel('tbl', 'Usuarios');
+        });
+    </script>
+}
