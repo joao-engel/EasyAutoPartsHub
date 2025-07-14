@@ -15,8 +15,8 @@ namespace EasyAutoPartsHub.Controllers
         {
             try
             {
-                int ano = DateTime.Now.Year;
-                int mes = DateTime.Now.Month;
+                int ano = 2025; // DateTime.Now.Year;
+                int mes = 6; // DateTime.Now.Month;
                 DashboardViewModel model = await _dashboardServices.Dashboard(ano, mes);
                 return View(model);
             }
