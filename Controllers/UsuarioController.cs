@@ -1,9 +1,11 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAutoPartsHub.Controllers
 {
+    [Authorize]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioServices _usuarioServices;

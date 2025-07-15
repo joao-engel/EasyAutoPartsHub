@@ -1,8 +1,10 @@
 ﻿using EasyAutoPartsHub.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAutoPartsHub.Controllers
 {
+    [Authorize]
     public class RelatorioController : Controller
     {
         private readonly IRelatorioServices _relatorioServices;

@@ -1,10 +1,12 @@
 ﻿using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Models.ViewModels;
 using EasyAutoPartsHub.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAutoPartsHub.Controllers
 {
+    [Authorize]
     public class PedidoController : Controller
     {
         private readonly IPedidoServices _pedidoServices;

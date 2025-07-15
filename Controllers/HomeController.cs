@@ -1,11 +1,13 @@
 using EasyAutoPartsHub.Models;
 using EasyAutoPartsHub.Models.ViewModels;
 using EasyAutoPartsHub.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace EasyAutoPartsHub.Controllers
 {
+    [Authorize]
     public class HomeController(IDashboardServices dashboardServices) : Controller
     {
         private readonly IDashboardServices _dashboardServices = dashboardServices;

@@ -2,10 +2,12 @@
 using EasyAutoPartsHub.Services;
 using iText.Html2pdf;
 using iText.Kernel.Pdf;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyAutoPartsHub.Controllers
 {
+    [Authorize]
     public class OrcamentoController : Controller
     {
         private readonly IOrcamentoServices _seOrcamento;
