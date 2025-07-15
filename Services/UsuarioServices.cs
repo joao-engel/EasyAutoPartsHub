@@ -7,8 +7,7 @@ namespace EasyAutoPartsHub.Services
     {
         Task<List<UsuarioModel>> Listar();
         Task<UsuarioModel> ObterPorId(int id);
-        Task<UsuarioModel> ObterPorEmail(string email);
-        Task<UsuarioModel> ObterPorUsuario(string usuario);
+        Task<UsuarioModel> ObterParaLogin(string usuario);
         Task Salvar(UsuarioModel model);
     }
 
@@ -32,17 +31,30 @@ namespace EasyAutoPartsHub.Services
             return usuarios.FirstOrDefault(u => u.ID == id);
         }
 
-        public async Task<UsuarioModel> ObterPorEmail(string email)
+        public async Task<UsuarioModel> ObterParaLogin(string usuario)
         {
-            var usuarios = await _repUsuarios.Listar();
-            return usuarios.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-        }
+            try
+            {
+                var usuarios = await _repUsuarios.Listar();
 
-        public async Task<UsuarioModel> ObterPorUsuario(string usuario)
-        {
-            var usuarios = await _repUsuarios.Listar();
-            return usuarios.FirstOrDefault(u => u.Usuario.Equals(usuario, StringComparison.OrdinalIgnoreCase));
-        }
+                UsuarioModel usuarioModel = new();
+
+                usuarioModel = await ObterPorUsuario(usuarios, usuario);
+                usuarioModel ??= await ObterPorEmail(usuarios, usuario);
+
+                if (usuario == null)
+                {
+                    throw new Exception("Usuário não encontrado");
+                }
+
+                return usuarioModel;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }        
 
         public async Task Salvar(UsuarioModel model)
         {
@@ -59,6 +71,16 @@ namespace EasyAutoPartsHub.Services
 
                 await _repUsuarios.Inserir(model);
             }
+        }
+
+        private async Task<UsuarioModel> ObterPorEmail(List<UsuarioModel> usuarios, string email)
+        {
+            return usuarios.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private async Task<UsuarioModel> ObterPorUsuario(List<UsuarioModel> usuarios, string usuario)
+        {
+            return usuarios.FirstOrDefault(u => u.Usuario.Equals(usuario, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
