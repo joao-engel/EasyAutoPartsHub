@@ -42,7 +42,7 @@ namespace EasyAutoPartsHub.Services
                 usuarioModel = await ObterPorUsuario(usuarios, usuario);
                 usuarioModel ??= await ObterPorEmail(usuarios, usuario);
 
-                if (usuario == null)
+                if (usuarioModel == null)
                 {
                     throw new Exception("Usuário não encontrado");
                 }

@@ -3,6 +3,7 @@ using EasyAutoPartsHub.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Security.Claims;
 
 namespace EasyAutoPartsHub.Controllers
@@ -24,31 +25,38 @@ namespace EasyAutoPartsHub.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string usuario, string senha)
         {
-            UsuarioModel usuarioModel = await _usuarioServices.ObterParaLogin(usuario);
-
-            if (usuario == null || !SenhaHelper.VerificarSenha(senha, usuarioModel.Senha, usuarioModel.Salt))
+            try
             {
-                ModelState.AddModelError("", "Email ou senha inválidos");
-                return View();
-            }
+                UsuarioModel usuarioModel = await _usuarioServices.ObterParaLogin(usuario);
 
-            var claims = new List<Claim>
+                if (usuario == null || !SenhaHelper.VerificarSenha(senha, usuarioModel.Senha, usuarioModel.Salt))
+                {
+                    throw new Exception("Usuário ou senha inválidos");
+                }
+
+                var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, usuarioModel.Nome),
                 new(ClaimTypes.NameIdentifier, usuarioModel.ID.ToString()),
                 new(ClaimTypes.Email, usuarioModel.Email),
             };
 
-            var identidade = new ClaimsIdentity(claims, "EasyAutoPartsHub");
-            var principal = new ClaimsPrincipal(identidade);
+                var identidade = new ClaimsIdentity(claims, "EasyAutoPartsHub");
+                var principal = new ClaimsPrincipal(identidade);
 
-            await HttpContext.SignInAsync("EasyAutoPartsHub", principal, new AuthenticationProperties
+                await HttpContext.SignInAsync("EasyAutoPartsHub", principal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(60)
+                });
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
             {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(60)
-            });
-
-            return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", "Usuário ou senha inválidos");
+                return View();
+            }            
         }
 
         [HttpPost]
