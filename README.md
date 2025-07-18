@@ -25,9 +25,5 @@ Projeto full stack em .NET, desenvolvido com foco em <strong>boas práticas</str
   <li>✅ <strong>Dashboard</strong> → Faturamento, pedidos, ticket médio, gráficos</li>
   <li>✅ <strong>Relatórios</strong> → Por período, cliente, produto, fornecedor, conversão</li>
   <li>✅ <strong>Exportação de tabelas para Excel</strong> → Em relatórios e listagens</li>
-</ul>
-
-<h2>🚀 Em Desenvolvimento Futuro</h2>
-<ul>
-  <li>🔜 Controle de usuários e permissões</li>
+  <li>✅ <strong>Autenticação de Usuários</strong> → Cadastro, login e logout</li>
 </ul>
