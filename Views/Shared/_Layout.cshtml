@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -15,12 +17,12 @@
 <body class="vh-100 overflow-hidden">
     <div class="d-flex h-100">
         <!-- Sidebar à esquerda -->
-        <nav class="d-flex flex-column text-white shadow-lg p-3" style="width: 250px; height: 100vh; background: linear-gradient(180deg, #0b3c6e, #17181a)">
+        <nav class="sidebar d-flex flex-column text-white shadow-lg p-3 position-relative" style="width: 250px;">
             <div class="mb-4 d-flex align-items-center gap-2">
                 <img src="/images/logo.png" alt="Logo" width="32" height="32" />
                 <span class="fw-bold fs-5">EAP Hub</span>
             </div>
-            <ul class="nav flex-column">
+            <ul class="nav flex-column flex-grow-1">
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white sidebar-hover d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
                         <i class="fa-solid fa-chart-simple"></i> Dashboard
@@ -77,6 +79,18 @@
                     </a>
                 </li>
             </ul>
+
+            <!-- Box do usuário -->
+            <div class="sidebar-footer mt-auto d-flex align-items-center gap-2 px-3 py-2 bg-light bg-opacity-25 rounded">
+                <i class="fa-solid fa-user"></i>
+                <div class="flex-grow-1">
+                    <div class="fw-bold" style="font-size: 10pt;">@User.FindFirstValue(ClaimTypes.Name)</div>
+                    <div class="small text-white-50" style="font-size: 8pt;">@User.FindFirstValue(ClaimTypes.Email)</div>
+                </div>
+                <a href="/Login/Logout" class="text-white ms-auto" title="Sair">
+                    <i class="fa-solid fa-arrow-right-from-bracket fs-5"></i>
+                </a>
+            </div>
         </nav>
 
         <!-- Conteúdo principal -->
